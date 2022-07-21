@@ -18,6 +18,7 @@
 *.pem
 .vscode
 .idea
+.eslintcache
 
 # debug
 npm-debug.log*
