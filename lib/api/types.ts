@@ -1,16 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export type AdditionalRequestFields = {
+type AdditionalRequestFields = {
   foo: boolean
   bar: boolean
 }
 
 export type ApiRequest = NextApiRequest & AdditionalRequestFields
 
+// Alias just for convenience, to import all from same place.
+export type ApiResponse<T = any> = NextApiResponse<T>
+
+export type ApiHandler<T = any> = (
+  req: ApiRequest,
+  res: NextApiResponse<T>
+) => unknown | Promise<unknown>
+
 export type ApiErrResp = { message: string }
-
-type ApiHandler<T = any> = (req: ApiRequest, res: NextApiResponse<T>) => unknown | Promise<unknown>
-
-export interface Middleware {
-  (handler: ApiHandler): (req: ApiRequest, res: NextApiResponse) => void
-}

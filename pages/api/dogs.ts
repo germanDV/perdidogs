@@ -1,15 +1,11 @@
-import type { NextApiResponse } from 'next'
+import { ApiRequest, ApiResponse, ApiErrResp } from 'lib/api/types'
+import { allowMethods } from 'lib/api/middleware/allow-methods'
 import { Dog, isDogStatus, fetchByStatus } from 'lib/models/dog'
-import { ApiRequest, ApiErrResp } from 'lib/api/types'
-import { fooMdw } from 'lib/api/middleware/foo'
-import { barMdw } from 'lib/api/middleware/bar'
 
-async function handler(req: ApiRequest, res: NextApiResponse<Dog[] | ApiErrResp>) {
+async function handler(req: ApiRequest, res: ApiResponse<Dog[] | ApiErrResp>) {
   const {
     query: { status },
   } = req
-
-  console.log(`req.foo = ${req.foo} - req.bar = ${req.bar}`)
 
   if (!req.query.status || !isDogStatus(status)) {
     res.status(400).json({ message: '`status` inválido o faltante.' })
@@ -24,4 +20,4 @@ async function handler(req: ApiRequest, res: NextApiResponse<Dog[] | ApiErrResp>
   }
 }
 
-export default fooMdw(barMdw(handler))
+export default allowMethods(handler, ['GET'])

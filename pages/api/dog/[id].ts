@@ -1,20 +1,11 @@
-import type { NextApiResponse } from 'next'
 import { Dog, fetchById } from 'lib/models/dog'
-import { ApiRequest, ApiErrResp } from 'lib/api/types'
-import { fooMdw } from 'lib/api/middleware/foo'
-import { barMdw } from 'lib/api/middleware/bar'
+import { ApiRequest, ApiResponse, ApiErrResp } from 'lib/api/types'
+import { allowMethods } from 'lib/api/middleware/allow-methods'
 
-async function handler(req: ApiRequest, res: NextApiResponse<Dog | ApiErrResp>) {
+async function handler(req: ApiRequest, res: ApiResponse<Dog | ApiErrResp>) {
   const {
-    method,
     query: { id },
   } = req
-
-  // TODO: tal vez un middleware para métodos no aceptados?
-  if (method !== 'GET') {
-    res.setHeader('Allow', ['GET'])
-    res.status(405).json({ message: `Método ${method} no permitido.` })
-  }
 
   try {
     const dog = await fetchById(Number(id))
@@ -28,4 +19,4 @@ async function handler(req: ApiRequest, res: NextApiResponse<Dog | ApiErrResp>) 
   }
 }
 
-export default fooMdw(barMdw(handler))
+export default allowMethods(handler, ['GET', 'HEAD'])
