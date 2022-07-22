@@ -1,12 +1,15 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 import { Dog, isDogStatus, fetchByStatus } from 'lib/models/dog'
+import { ApiRequest, ApiErrResp } from 'lib/api/types'
+import { fooMdw } from 'lib/api/middleware/foo'
+import { barMdw } from 'lib/api/middleware/bar'
 
-type ErrResp = { message: string }
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Dog[] | ErrResp>) {
+async function handler(req: ApiRequest, res: NextApiResponse<Dog[] | ApiErrResp>) {
   const {
     query: { status },
   } = req
+
+  console.log(`req.foo = ${req.foo} - req.bar = ${req.bar}`)
 
   if (!req.query.status || !isDogStatus(status)) {
     res.status(400).json({ message: '`status` inválido o faltante.' })
@@ -20,3 +23,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     res.status(500).json({ message: (err as Error).message })
   }
 }
+
+export default fooMdw(barMdw(handler))

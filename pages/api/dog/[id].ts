@@ -1,10 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 import { Dog, fetchById } from 'lib/models/dog'
+import { ApiRequest, ApiErrResp } from 'lib/api/types'
+import { fooMdw } from 'lib/api/middleware/foo'
+import { barMdw } from 'lib/api/middleware/bar'
 
-// TODO: crear `errs` module.
-type ErrResp = { message: string }
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Dog | ErrResp>) {
+async function handler(req: ApiRequest, res: NextApiResponse<Dog | ApiErrResp>) {
   const {
     method,
     query: { id },
@@ -27,3 +27,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     res.status(500).json({ message: (err as Error).message })
   }
 }
+
+export default fooMdw(barMdw(handler))

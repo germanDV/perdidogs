@@ -3,7 +3,7 @@ import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 const { PROTO, HOST } = process.env
 const BASE_URL = `${PROTO}://${HOST}`
 
-async function client<T>(cfg: AxiosRequestConfig): Promise<T> {
+async function http<T>(cfg: AxiosRequestConfig): Promise<T> {
   const { method, url, headers, data, ...config } = cfg
 
   try {
@@ -29,4 +29,4 @@ async function client<T>(cfg: AxiosRequestConfig): Promise<T> {
   }
 }
 
-export default client
+export default http
