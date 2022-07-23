@@ -13,7 +13,7 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   } catch (err) {
     res.status(500).json({
       message: (err as Error).message,
-      error: err,
+      error: err as Error,
     })
   }
 }
