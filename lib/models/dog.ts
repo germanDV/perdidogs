@@ -96,6 +96,7 @@ export async function fetchById(id: number): Promise<Dog | undefined> {
   return DB.find((d) => d._id === id)
 }
 
+// TODO: add validations
 export async function save(dog: Omit<Dog, '_id'>): Promise<number> {
   const newDog = { _id: DB.length + 1, ...dog }
   DB.push(newDog)

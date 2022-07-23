@@ -15,8 +15,3 @@ export type ApiHandler<T = any> = (
   req: ApiRequest,
   res: NextApiResponse<T>
 ) => unknown | Promise<unknown>
-
-export type ApiErrResp = {
-  message: string
-  error?: Error
-}

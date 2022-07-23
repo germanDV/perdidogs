@@ -1,8 +1,9 @@
 import { Dog, fetchById } from 'lib/models/dog'
-import { ApiRequest, ApiResponse, ApiErrResp } from 'lib/api/types'
+import { ApiRequest, ApiResponse } from 'lib/api/types'
 import { allowMethods } from 'lib/api/middleware/allow-methods'
+import { AppError } from 'lib/errors'
 
-type RespPayload = Dog | ApiErrResp
+type RespPayload = Dog | AppError
 
 async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   const {
@@ -12,14 +13,18 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   try {
     const dog = await fetchById(Number(id))
     if (!dog) {
-      res.status(404).json({ message: `Perr@ con ID ${id} no encontrado.` })
+      res.status(404).json({
+        name: 'NotFound',
+        message: `Perr@ con ID ${id} no encontrado.`,
+      })
+
       return
     }
     res.status(200).json(dog)
   } catch (err) {
     res.status(500).json({
-      message: (err as Error).message,
-      error: err as Error,
+      name: (err as AppError).name || 'InternalServer',
+      message: (err as AppError).message,
     })
   }
 }

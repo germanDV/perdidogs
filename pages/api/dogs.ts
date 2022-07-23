@@ -1,8 +1,9 @@
-import { ApiRequest, ApiResponse, ApiErrResp } from 'lib/api/types'
+import { ApiRequest, ApiResponse } from 'lib/api/types'
+import { AppError } from 'lib/errors'
 import { allowMethods } from 'lib/api/middleware/allow-methods'
 import { Dog, isDogStatus, fetchByStatus } from 'lib/models/dog'
 
-type RespPayload = Dog[] | ApiErrResp
+type RespPayload = Dog[] | AppError
 
 async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   const {
@@ -10,7 +11,11 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   } = req
 
   if (!status || !isDogStatus(status)) {
-    res.status(400).json({ message: '`status` inválido o faltante.' })
+    res.status(400).json({
+      name: 'BadRequest',
+      message: '`status` inválido o faltante.',
+    })
+
     return
   }
 
@@ -19,8 +24,8 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
     res.status(200).json(dogs)
   } catch (err) {
     res.status(500).json({
-      message: (err as Error).message,
-      error: err as Error,
+      name: (err as AppError).name || 'InternalServer',
+      message: (err as AppError).message,
     })
   }
 }

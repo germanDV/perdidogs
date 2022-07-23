@@ -1,15 +1,15 @@
 import { ApiRequest, ApiResponse } from 'lib/api/types'
 import { allowMethods } from 'lib/api/middleware/allow-methods'
-import { Dog, save } from 'lib/models/dog'
+import { signin, SigninUser, Token } from 'lib/models/user'
 import { AppError } from 'lib/errors'
 
-type RespPayload = { id: number } | AppError
+type RespPayload = { token: Token } | AppError
 
 async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   try {
-    const dog: Omit<Dog, '_id'> = req.body
-    const id = await save(dog)
-    res.status(200).json({ id })
+    const user: SigninUser = req.body
+    const token = await signin(user)
+    res.status(200).json({ token })
   } catch (err) {
     res.status(500).json({
       name: (err as AppError).name || 'InternalServer',
