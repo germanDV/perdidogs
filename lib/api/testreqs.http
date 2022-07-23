@@ -1,0 +1,21 @@
+### Get all dogs (encontrados)
+GET http://localhost:3000/api/dogs?status=encontrado HTTP/1.1
+
+### Get all dogs (perdidos)
+GET http://localhost:3000/api/dogs?status=perdido HTTP/1.1
+
+### Get dog by ID
+GET http://localhost:3000/api/dog/1 HTTP/1.1
+
+### Post a new dog
+POST http://localhost:3000/api/dog/new HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Api",
+  "date": 20220723,
+  "location": "San Cristobal",
+  "status": "perdido",
+  "breed": "labrador",
+  "description": ""
+}

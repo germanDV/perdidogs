@@ -95,3 +95,9 @@ export async function fetchByStatus(status: DogStatus): Promise<Dog[]> {
 export async function fetchById(id: number): Promise<Dog | undefined> {
   return DB.find((d) => d._id === id)
 }
+
+export async function save(dog: Omit<Dog, '_id'>): Promise<number> {
+  const newDog = { _id: DB.length + 1, ...dog }
+  DB.push(newDog)
+  return newDog._id
+}
