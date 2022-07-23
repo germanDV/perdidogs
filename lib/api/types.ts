@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type AdditionalRequestFields = {
@@ -15,4 +16,7 @@ export type ApiHandler<T = any> = (
   res: NextApiResponse<T>
 ) => unknown | Promise<unknown>
 
-export type ApiErrResp = { message: string }
+export type ApiErrResp = {
+  message: string
+  error?: Error
+}

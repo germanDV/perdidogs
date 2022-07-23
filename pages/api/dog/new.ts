@@ -11,7 +11,10 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
     const id = await save(dog)
     res.status(200).json({ id })
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message })
+    res.status(500).json({
+      message: (err as Error).message,
+      error: err,
+    })
   }
 }
 

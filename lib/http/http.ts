@@ -20,8 +20,7 @@ async function http<T>(cfg: AxiosRequestConfig): Promise<T> {
     return resp.data
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const err = error.response?.data
-      // @ts-ignore
+      const err = error.response?.data as { error: string } | undefined
       const msg = err && err.error ? err.error : error.message
       throw new Error(msg)
     }

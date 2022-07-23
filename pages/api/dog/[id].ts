@@ -2,7 +2,9 @@ import { Dog, fetchById } from 'lib/models/dog'
 import { ApiRequest, ApiResponse, ApiErrResp } from 'lib/api/types'
 import { allowMethods } from 'lib/api/middleware/allow-methods'
 
-async function handler(req: ApiRequest, res: ApiResponse<Dog | ApiErrResp>) {
+type RespPayload = Dog | ApiErrResp
+
+async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   const {
     query: { id },
   } = req
@@ -15,7 +17,10 @@ async function handler(req: ApiRequest, res: ApiResponse<Dog | ApiErrResp>) {
     }
     res.status(200).json(dog)
   } catch (err) {
-    res.status(500).json({ message: (err as Error).message })
+    res.status(500).json({
+      message: (err as Error).message,
+      error: err as Error,
+    })
   }
 }
 
