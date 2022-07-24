@@ -11,6 +11,8 @@ export type SignupUser = Omit<User, '_id'>
 
 export type SigninUser = Omit<Omit<User, '_id'>, 'name'>
 
+export type PublicUser = Omit<User, 'pass'>
+
 export type Token = string
 
 const DB: User[] = []
@@ -48,9 +50,7 @@ export async function signin(creds: SigninUser): Promise<Token> {
   return token
 }
 
-// TODO: use a proper token
-export async function me(token: Token): Promise<Omit<User, 'pass'>> {
-  const id = Number(token.split(':')[1])
+export async function find(id: number): Promise<PublicUser> {
   const user = DB.find((u) => u._id === id)
 
   if (!user) {

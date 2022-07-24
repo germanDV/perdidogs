@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { PublicUser } from 'lib/models/user'
 
 type AdditionalRequestFields = {
-  foo: boolean
-  bar: boolean
+  user: PublicUser
 }
 
 export type ApiRequest = NextApiRequest & AdditionalRequestFields

@@ -1,21 +1,12 @@
-import { ApiRequest, ApiResponse } from 'lib/api/types'
-import { allowMethods } from 'lib/api/middleware/allow-methods'
-import { me, User } from 'lib/models/user'
+import type { ApiRequest, ApiResponse } from 'lib/api/types'
+import { allowMethods, auth } from 'lib/api/middleware'
+import { PublicUser } from 'lib/models/user'
 import { AppError } from 'lib/errors'
 
-type RespPayload = { user: Omit<User, 'pass'> } | AppError
+type RespPayload = { user: PublicUser } | AppError
 
 async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
-  try {
-    const token = req.headers['authorization'] || ''
-    const user = await me(token)
-    res.status(200).json({ user })
-  } catch (err) {
-    res.status(401).json({
-      name: (err as AppError).name || 'InternalServer',
-      message: (err as AppError).message,
-    })
-  }
+  res.status(200).json({ user: req.user })
 }
 
-export default allowMethods(handler, ['GET'])
+export default allowMethods(auth(handler), ['GET'])
