@@ -8,7 +8,6 @@ if (!KEY) {
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get(KEY)
-  console.log({ token })
 
   // TODO: validate token.
   if (!token) {
@@ -19,5 +18,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/protected'],
+  matcher: ['/profile'],
 }
