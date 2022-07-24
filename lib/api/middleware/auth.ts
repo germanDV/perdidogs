@@ -4,6 +4,7 @@ import { find } from 'lib/models/user'
 export const auth = (handler: ApiHandler) => {
   return async (req: ApiRequest, res: ApiResponse) => {
     try {
+      // TODO: probably use a cookie with the token instead of a header
       const token = req.headers['authorization'] || ''
       const id = Number(token.split(':')[1])
       const user = await find(id)
