@@ -1,3 +1,5 @@
+import mongoose from 'mongoose'
+import { conn } from 'lib/database'
 import { DuplicateUserErr, UserNotFoundErr, InvalidPassword, UnauthenticatedUser } from 'lib/errors'
 
 export type User = {
@@ -17,23 +19,33 @@ export type Token = string
 
 const DB: User[] = []
 
-// TODO: add validations
-export async function signup(user: SignupUser): Promise<number> {
-  user.email = user.email.toLowerCase()
+const userSchema = new mongoose.Schema({ name: 'string', email: 'string', pass: 'string' })
 
-  const duplicate = DB.find((u) => u.email === user.email)
-  if (duplicate) {
-    throw new DuplicateUserErr(`Email ${user.email} ya existe.`)
-  }
+const UserModel = conn.model('User', userSchema)
 
-  const newUser = {
-    _id: DB.length + 1,
-    ...user,
-  }
-
-  DB.push(newUser)
-  return newUser._id
+export async function signup(user: SignupUser): Promise<string> {
+  const u = new UserModel(user)
+  const doc = await u.save()
+  return doc._id.toString()
 }
+
+// TODO: add validations
+// export async function signup(user: SignupUser): Promise<number> {
+//   user.email = user.email.toLowerCase()
+//
+//   const duplicate = DB.find((u) => u.email === user.email)
+//   if (duplicate) {
+//     throw new DuplicateUserErr(`Email ${user.email} ya existe.`)
+//   }
+//
+//   const newUser = {
+//     _id: DB.length + 1,
+//     ...user,
+//   }
+//
+//   DB.push(newUser)
+//   return newUser._id
+// }
 
 // TODO: add validation, proper token, and password hashing
 export async function signin(creds: SigninUser): Promise<Token> {
