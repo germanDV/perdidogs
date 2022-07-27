@@ -6,12 +6,12 @@ export const auth = (handler: ApiHandler) => {
     try {
       // TODO: maybe check for the token in cookies as a fallback option.
       const token = req.headers['authorization'] || ''
-      const id = Number(token.split(':')[1])
+      const id = token.split(':')[1]
       const user = await find(id)
       req.user = user
       return handler(req, res)
     } catch (err) {
-      res.status(401).end()
+      res.status(401).end((err as Error).message)
       return
     }
   }

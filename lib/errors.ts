@@ -1,44 +1,52 @@
 export class DuplicateUserErr extends Error {
   public name: string
   public message: string
+  public code: number
 
   constructor(msg: string) {
     super(msg)
     this.message = msg
     this.name = 'DuplicateUserErr'
+    this.code = 400
   }
 }
 
 export class UserNotFoundErr extends Error {
   public name: string
   public message: string
+  public code: number
 
   constructor(msg: string) {
     super(msg)
     this.message = msg
     this.name = 'UserNotFoundErr'
+    this.code = 404
   }
 }
 
-export class InvalidPassword extends Error {
+export class InvalidCredentials extends Error {
   public name: string
   public message: string
+  public code: number
 
   constructor(msg: string) {
     super(msg)
     this.message = msg
-    this.name = 'InvalidPassword'
+    this.name = 'InvalidCredentials'
+    this.code = 401
   }
 }
 
 export class UnauthenticatedUser extends Error {
   public name: string
   public message: string
+  public code: number
 
   constructor(msg: string) {
     super(msg)
     this.message = msg
     this.name = 'UnauthenticatedUser'
+    this.code = 401
   }
 }
 
@@ -55,9 +63,4 @@ export class HttpError extends Error {
   }
 }
 
-export type AppError =
-  | DuplicateUserErr
-  | UserNotFoundErr
-  | InvalidPassword
-  | UnauthenticatedUser
-  | HttpError
+export type AppError = { message: string; name: string; code: number }

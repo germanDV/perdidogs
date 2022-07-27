@@ -1,9 +1,10 @@
 import { ApiRequest, ApiResponse } from 'lib/api/types'
 import { allowMethods } from 'lib/api/middleware/allow-methods'
-import { signup, SignupUser } from 'lib/models/user'
+import { signup } from 'lib/models/user'
+import { SignupUser } from 'lib/models/user-schema'
 import { AppError } from 'lib/errors'
 
-type RespPayload = { id: number } | AppError
+type RespPayload = { id: string } | Omit<AppError, 'code'>
 
 async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   try {
@@ -11,9 +12,11 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
     const id = await signup(user)
     res.status(200).json({ id })
   } catch (err) {
-    res.status(500).json({
-      name: (err as AppError).name || 'InternalServer',
-      message: (err as AppError).message,
+    const error = err as AppError
+    const code = error.code || 500
+    res.status(code).json({
+      name: error.name || 'InternalServer',
+      message: error.message,
     })
   }
 }

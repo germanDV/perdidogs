@@ -1,6 +1,6 @@
 import type { ApiRequest, ApiResponse } from 'lib/api/types'
 import { allowMethods, auth } from 'lib/api/middleware'
-import { PublicUser } from 'lib/models/user'
+import { PublicUser } from 'lib/models/user-schema'
 import { AppError } from 'lib/errors'
 
 type RespPayload = { user: PublicUser } | AppError
