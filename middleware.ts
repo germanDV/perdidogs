@@ -1,16 +1,14 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const KEY = process.env.AUTH_TOKEN_KEY || ''
-if (!KEY) {
-  throw new Error('Missing AUTH_TOKEN_KEY')
-}
-
+/**
+ * Just validates token existence,
+ * proper token validation takes place in API endpoints
+ */
 export function middleware(req: NextRequest) {
+  const KEY = process.env.AUTH_COOKIE_KEY || ''
   const token = req.cookies.get(KEY)
-
-  // TODO: validate token.
-  if (!token) {
+  if (!KEY || !token) {
     return NextResponse.redirect(new URL('/signin', req.url))
   }
 

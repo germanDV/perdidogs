@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
-import { PublicUser } from 'lib/models/user'
+import { PublicUser } from 'lib/models/user-schema'
 import http from 'lib/http/http'
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
   error: string
 }
 
-const Protected: NextPage<Props> = ({ user, error }) => {
+const Profile: NextPage<Props> = ({ user, error }) => {
   return (
     <main>
       <Title>Mi Perfil</Title>
@@ -25,12 +25,12 @@ const Protected: NextPage<Props> = ({ user, error }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const KEY = process.env.AUTH_TOKEN_KEY || ''
+    const KEY = process.env.AUTH_COOKIE_KEY || ''
     const token = ctx.req.cookies[KEY] || ''
 
     const { user } = await http<{ user: PublicUser }>({
       url: '/api/user/me',
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     })
 
     return {
@@ -46,4 +46,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 }
 
-export default Protected
+export default Profile

@@ -20,4 +20,3 @@ export const userSchema = new mongoose.Schema({
 export type SignupUser = Omit<User, '_id'>
 export type SigninUser = Omit<Omit<User, '_id'>, 'name'>
 export type PublicUser = Omit<User, 'pass'>
-export type Token = string

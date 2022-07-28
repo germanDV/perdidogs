@@ -1,7 +1,8 @@
 import { conn } from 'lib/database'
-import { userSchema, User, SigninUser, SignupUser, PublicUser, Token } from './user-schema'
+import { userSchema, User, SigninUser, SignupUser, PublicUser } from './user-schema'
 import { DuplicateUserErr, InvalidCredentials, UnauthenticatedUser } from 'lib/errors'
 import { hash, match } from 'lib/pwd'
+import { generate } from 'lib/token'
 
 const UserModel = conn.model('User', userSchema)
 
@@ -30,7 +31,7 @@ export async function find(id: string): Promise<PublicUser> {
   return user
 }
 
-export async function signin(creds: SigninUser): Promise<Token> {
+export async function signin(creds: SigninUser): Promise<string> {
   const user: User = await UserModel.findOne({ email: creds.email }).exec()
   if (!user) {
     throw new InvalidCredentials('Datos de ingreso inválidos.')
@@ -41,6 +42,6 @@ export async function signin(creds: SigninUser): Promise<Token> {
     throw new InvalidCredentials('Datos de ingreso inválidos.')
   }
 
-  const token: Token = `auth-token-for-user:${user._id.toString()}`
+  const token = await generate({ sub: user._id.toString() })
   return token
 }
