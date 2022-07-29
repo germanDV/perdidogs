@@ -1,5 +1,9 @@
 # PERDIDOGS
 
+## Env Vars
+
+Copy `.env.sample`, rename it to `.env.local` and fill in the missing variables.
+
 ## MongoDB Docker Container
 
 ```shell
