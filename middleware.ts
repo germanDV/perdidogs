@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
   const KEY = process.env.AUTH_COOKIE_KEY || ''
   const token = req.cookies.get(KEY)
   if (!KEY || !token) {
-    return NextResponse.redirect(new URL('/signin', req.url))
+    return NextResponse.redirect(new URL('/ingresar', req.url))
   }
 
   return NextResponse.next()

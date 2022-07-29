@@ -1,11 +1,13 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 import { HttpError } from 'lib/errors'
 
-const { PROTO, HOST } = process.env
+const PROTO = process.env.NEXT_PUBLIC_PROTO
+const HOST = process.env.NEXT_PUBLIC_HOST
 const BASE_URL = `${PROTO}://${HOST}`
 
 async function http<T>(cfg: AxiosRequestConfig): Promise<T> {
   const { method, url, headers, data, ...config } = cfg
+  console.log(`Making ${method} request to ${BASE_URL}${url}`)
 
   try {
     const resp: AxiosResponse<T> = await axios({
@@ -20,11 +22,12 @@ async function http<T>(cfg: AxiosRequestConfig): Promise<T> {
     })
     return resp.data
   } catch (error) {
+    console.log(error)
     if (axios.isAxiosError(error)) {
       const code = error.response?.status || 500
       const name = error.code || 'UnknownHttpError'
-      const err = error.response?.data as { error: string } | undefined
-      const msg = err && err.error ? err.error : error.message
+      const err = error.response?.data as { name: string; message: string } | undefined
+      const msg = err && err.message ? err.message : error.message
       throw new HttpError(msg, name, code)
     }
     throw new HttpError((error as Error).message, 'UnknownHttpError', 500)

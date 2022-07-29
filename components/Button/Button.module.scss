@@ -1,0 +1,37 @@
+@import 'styles/variables';
+
+.button {
+  font-size: 1.1rem;
+  padding: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  outline: none;
+  border-width: 2px;
+  border-style: solid;
+  border-color: $black;
+  text-transform: uppercase;
+  transition-duration: 300ms;
+}
+
+.primary {
+  background-color: $black;
+  color: $white;
+
+  &:hover {
+    background-color: #000;
+  }
+}
+
+.secondary {
+  background-color: #fff;
+  color: $black;
+
+  &:hover {
+    background-color: #000;
+    color: $white;
+  }
+}
+
+.full {
+  width: 100%;
+}
