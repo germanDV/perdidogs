@@ -5,6 +5,7 @@ import Title from 'components/Title/Title'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
 import http from 'lib/http/http'
+import { validateName, validateEmail, validatePass } from 'lib/validator/validator'
 
 type FormTarget = { elements: Record<string, { value: string }> }
 
@@ -20,7 +21,24 @@ const SignUp: NextPage = () => {
     const email = form.elements.email.value
     const pass = form.elements.pass.value
 
-    // TODO: validate name, email and pass
+    const [isValidName, nameError] = validateName(name)
+    if (!isValidName) {
+      setError(nameError)
+      return
+    }
+
+    const [isValidEmail, emailError] = validateEmail(email)
+    if (!isValidEmail) {
+      setError(emailError)
+      return
+    }
+
+    const [isValidPass, passError] = validatePass(pass)
+    if (!isValidPass) {
+      setError(passError)
+      return
+    }
+
     try {
       await http<{ token: string }>({
         url: '/api/user/signup',

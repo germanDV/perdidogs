@@ -53,9 +53,13 @@ export async function find(id: string): Promise<PublicUser> {
     throw new UnauthenticatedUser(`Usuario no autorizado.`)
   }
 
-  const u: Partial<User> = user
-  delete u.pass
-  return user
+  const u: PublicUser = {
+    _id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+  }
+
+  return u
 }
 
 export async function signin(creds: SigninUser): Promise<string> {

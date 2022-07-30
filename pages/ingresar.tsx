@@ -5,6 +5,7 @@ import Title from 'components/Title/Title'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
 import http from 'lib/http/http'
+import { validateEmail, validatePass } from 'lib/validator/validator'
 
 type FormTarget = { elements: Record<string, { value: string }> }
 
@@ -19,7 +20,18 @@ const SignIn: NextPage = () => {
     const email = form.elements.email.value
     const pass = form.elements.pass.value
 
-    // TODO: validate email and pass
+    const [isValidEmail, emailError] = validateEmail(email)
+    if (!isValidEmail) {
+      setError(emailError)
+      return
+    }
+
+    const [isValidPass, passError] = validatePass(pass)
+    if (!isValidPass) {
+      setError(passError)
+      return
+    }
+
     try {
       await http<{ token: string }>({
         url: '/api/user/signin',
@@ -28,7 +40,6 @@ const SignIn: NextPage = () => {
       })
       router.push('/')
     } catch (err) {
-      console.error(err)
       setError((err as Error).message)
     }
   }
