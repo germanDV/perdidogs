@@ -15,8 +15,10 @@ const connOpts: ConnectOptions = {
 
 const URI = IS_PROD ? `mongodb://${USER}:${PASS}@${HOST}:${PORT}` : `mongodb://${HOST}:${PORT}`
 
+mongoose.set('sanitizeFilter', true)
+
 export const conn = mongoose.createConnection(URI, connOpts)
 
-conn.on('connected', () => console.log('Connected to MONGODB'))
-conn.on('error', (err) => console.log(`MONGODB connection error: ${err}`))
-conn.on('disconnected', () => console.log('MONGODB connection error: connection lost.'))
+conn.on('connected', () => console.log('Connected to MongoDB'))
+conn.on('error', (err) => console.log(`MongoDB connection error: ${err}`))
+conn.on('disconnected', () => console.log('MongoDB connection lost.'))

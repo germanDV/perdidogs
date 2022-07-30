@@ -8,13 +8,20 @@ export type User = {
 }
 
 export const userSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     index: true,
     unique: true,
+    required: true,
   },
-  pass: String,
+  pass: {
+    type: String,
+    required: true,
+  },
 })
 
 export type SignupUser = Omit<User, '_id'>
