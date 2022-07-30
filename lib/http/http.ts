@@ -7,7 +7,6 @@ const BASE_URL = `${PROTO}://${HOST}`
 
 async function http<T>(cfg: AxiosRequestConfig): Promise<T> {
   const { method, url, headers, data, ...config } = cfg
-  console.log(`Making ${method} request to ${BASE_URL}${url}`)
 
   try {
     const resp: AxiosResponse<T> = await axios({
@@ -17,6 +16,7 @@ async function http<T>(cfg: AxiosRequestConfig): Promise<T> {
         'Content-Type': 'application/json',
         ...headers,
       },
+      withCredentials: true,
       data: ['POST', 'PUT', 'PATCH'].includes((method || '').toUpperCase()) ? data : null,
       ...config,
     })

@@ -1,4 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
+import { useState } from 'react'
 import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
 import { PublicUser } from 'lib/models/user-schema'
@@ -10,6 +11,17 @@ type Props = {
 }
 
 const Profile: NextPage<Props> = ({ user, error }) => {
+  const [clientUser, setClientUser] = useState<PublicUser>()
+
+  const fetchUser = async () => {
+    try {
+      const data = await http<{ user: PublicUser }>({ url: '/api/user/me' })
+      setClientUser(data.user)
+    } catch (err) {
+      console.log(err.response.data)
+    }
+  }
+
   return (
     <main>
       <Title>Mi Perfil</Title>
@@ -19,6 +31,12 @@ const Profile: NextPage<Props> = ({ user, error }) => {
       ) : (
         <pre>{JSON.stringify(user, null, 2)}</pre>
       )}
+
+      <div style={{ border: '1px solid black', marginTop: 20, width: 350 }}>
+        <h4>Fetch client-side:</h4>
+        <button onClick={fetchUser}>fetch</button>
+        <pre>{JSON.stringify(clientUser, null, 2)}</pre>
+      </div>
     </main>
   )
 }
