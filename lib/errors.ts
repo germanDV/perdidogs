@@ -50,6 +50,19 @@ export class UnauthenticatedUser extends Error {
   }
 }
 
+export class BadInputError extends Error {
+  public name: string
+  public message: string
+  public code: number
+
+  constructor(msg: string) {
+    super(msg)
+    this.message = msg
+    this.name = 'BadInputError'
+    this.code = 400
+  }
+}
+
 export class HttpError extends Error {
   public name: string
   public message: string

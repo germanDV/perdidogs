@@ -1,12 +1,39 @@
 import { conn } from 'lib/database'
 import { userSchema, User, SigninUser, SignupUser, PublicUser } from './user-schema'
-import { DuplicateUserErr, InvalidCredentials, UnauthenticatedUser } from 'lib/errors'
 import { hash, match } from 'lib/auth/pwd'
 import { generate } from 'lib/auth/token'
+import { validateName, validateEmail, validatePass } from 'lib/validator/validator'
+import {
+  DuplicateUserErr,
+  InvalidCredentials,
+  UnauthenticatedUser,
+  BadInputError,
+} from 'lib/errors'
 
 const UserModel = conn.model('User', userSchema)
 
 export async function signup(user: SignupUser): Promise<string> {
+  const validationErrors: Record<string, string> = {}
+
+  const [isValidName, nameError] = validateName(user.name)
+  if (nameError) {
+    validationErrors.name = nameError
+  }
+
+  const [isValidEmail, emailError] = validateEmail(user.email)
+  if (emailError) {
+    validationErrors.email = emailError
+  }
+
+  const [isValidPass, passError] = validatePass(user.pass)
+  if (passError) {
+    validationErrors.pass = passError
+  }
+
+  if (!isValidName || !isValidEmail || !isValidPass) {
+    throw new BadInputError(JSON.stringify(validationErrors))
+  }
+
   try {
     user.pass = await hash(user.pass)
     const u = new UserModel(user)
@@ -32,6 +59,22 @@ export async function find(id: string): Promise<PublicUser> {
 }
 
 export async function signin(creds: SigninUser): Promise<string> {
+  const validationErrors: Record<string, string> = {}
+
+  const [isValidEmail, emailError] = validateEmail(creds.email)
+  if (emailError) {
+    validationErrors.email = emailError
+  }
+
+  const [isValidPass, passError] = validatePass(creds.pass)
+  if (passError) {
+    validationErrors.pass = passError
+  }
+
+  if (!isValidEmail || !isValidPass) {
+    throw new BadInputError(JSON.stringify(validationErrors))
+  }
+
   const user: User = await UserModel.findOne({ email: creds.email }).exec()
   if (!user) {
     throw new InvalidCredentials('Datos de ingreso inválidos.')
