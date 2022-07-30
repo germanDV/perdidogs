@@ -3,8 +3,8 @@ import { allowMethods } from 'lib/api/middleware/allow-methods'
 import { signup } from 'lib/models/user'
 import { SignupUser } from 'lib/models/user-schema'
 import { AppError } from 'lib/errors'
-import { generate } from 'lib/token'
-import { getAuthCookie } from 'lib/cookie'
+import { generate } from 'lib/auth/token'
+import { getAuthCookie } from 'lib/auth/cookie'
 
 type RespPayload = { id: string; token: string } | Omit<AppError, 'code'>
 

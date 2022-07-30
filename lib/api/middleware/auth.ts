@@ -1,6 +1,6 @@
 import type { ApiHandler, ApiRequest, ApiResponse } from 'lib/api/types'
 import { find } from 'lib/models/user'
-import { verify } from 'lib/token'
+import { verify } from 'lib/auth/token'
 
 const COOKIE_KEY = (process.env.AUTH_COOKIE_KEY = '')
 

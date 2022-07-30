@@ -1,8 +1,8 @@
 import { conn } from 'lib/database'
 import { userSchema, User, SigninUser, SignupUser, PublicUser } from './user-schema'
 import { DuplicateUserErr, InvalidCredentials, UnauthenticatedUser } from 'lib/errors'
-import { hash, match } from 'lib/pwd'
-import { generate } from 'lib/token'
+import { hash, match } from 'lib/auth/pwd'
+import { generate } from 'lib/auth/token'
 
 const UserModel = conn.model('User', userSchema)
 

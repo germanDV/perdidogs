@@ -3,7 +3,7 @@ import { allowMethods } from 'lib/api/middleware/allow-methods'
 import { signin } from 'lib/models/user'
 import { SigninUser } from 'lib/models/user-schema'
 import { AppError } from 'lib/errors'
-import { getAuthCookie } from 'lib/cookie'
+import { getAuthCookie } from 'lib/auth/cookie'
 
 type RespPayload = { token: string } | Omit<AppError, 'code'>
 
