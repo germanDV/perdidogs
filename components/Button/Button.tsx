@@ -25,7 +25,7 @@ const Button: React.FC<Props> = ({ children, category, type, fullWidth, onClick 
   return (
     <button
       type={type || 'button'}
-      onClick={type === 'button' ? onClick : undefined}
+      onClick={type !== 'submit' ? onClick : undefined}
       className={getClasses()}
     >
       {children}
