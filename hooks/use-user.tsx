@@ -63,8 +63,9 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
     return user
   }, [])
 
-  const signout = useCallback(() => {
-    console.log(`Sign out is not implemented yet`)
+  const signout = useCallback(async () => {
+    await http({ url: '/api/user/signout', method: 'DELETE' })
+    setUser(null)
   }, [])
 
   const value = useMemo(() => {

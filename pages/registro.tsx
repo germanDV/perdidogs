@@ -58,7 +58,7 @@ const SignUp: NextPage = () => {
         <Input type="text" id="email" placeholder="Email" />
         <Input type="password" id="pass" placeholder="Password" />
         <Button type="submit" fullWidth>
-          Registrar
+          Registrarme
         </Button>
         {error && <p style={{ color: 'tomato', textAlign: 'center' }}>Error: {error}</p>}
       </form>

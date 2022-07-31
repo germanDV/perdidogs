@@ -1,0 +1,21 @@
+@import 'styles/variables';
+
+.link {
+  margin: 10px;
+  padding-bottom: 8px;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  transition-duration: 300ms;
+  $color: $black;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: transparent;
+
+  &:hover,
+  &:focus {
+    color: $primary-color;
+    border-bottom-color: $primary-color;
+  }
+}
+

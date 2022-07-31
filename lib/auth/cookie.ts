@@ -12,3 +12,14 @@ export function getAuthCookie(token: string): string {
 
   return cookieString
 }
+
+export function expireCookie(): string {
+  let cookieString =
+    'auth_token=perdidogs_user_signed_out; HttpOnly; Path=/; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+
+  if (ENV === 'production') {
+    cookieString += '; Secure'
+  }
+
+  return cookieString
+}
