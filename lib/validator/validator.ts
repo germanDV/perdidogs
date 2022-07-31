@@ -23,12 +23,12 @@ export const validatePass: ValidatorFunction = (pass) => {
   const max = 32
 
   if (typeof pass !== 'string' || !pass.trim()) {
-    return [false, 'La password es obligatoria.']
+    return [false, 'La contraseña es obligatoria.']
   }
 
   const p = pass.trim()
   if (p.length < min || p.length > max) {
-    return [false, `La password debe contenter entre ${min} y ${max} caracteres.`]
+    return [false, `La contraseña debe contenter entre ${min} y ${max} caracteres.`]
   }
 
   return [true, '']

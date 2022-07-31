@@ -21,6 +21,7 @@ const SignUp: NextPage = () => {
     const name = form.elements.name.value
     const email = form.elements.email.value
     const pass = form.elements.pass.value
+    const repeat = form.elements.repeat.value
 
     const [isValidName, nameError] = validateName(name)
     if (!isValidName) {
@@ -40,6 +41,11 @@ const SignUp: NextPage = () => {
       return
     }
 
+    if (pass !== repeat) {
+      setError('Las contraseñas no coinciden.')
+      return
+    }
+
     try {
       await signup(name, email, pass)
       router.push('/')
@@ -56,7 +62,8 @@ const SignUp: NextPage = () => {
       <form onSubmit={handleSignup} style={{ width: 350, margin: '40px 0' }}>
         <Input type="text" id="name" placeholder="Nombre" />
         <Input type="text" id="email" placeholder="Email" />
-        <Input type="password" id="pass" placeholder="Password" />
+        <Input type="password" id="pass" placeholder="Contraseña" />
+        <Input type="password" id="repeat" placeholder="Repetir contraseña" />
         <Button type="submit" fullWidth>
           Registrarme
         </Button>

@@ -26,15 +26,15 @@ describe('validateName', () => {
 })
 
 const passTestCases: TestCase[] = [
-  ['', [false, 'La password es obligatoria.']],
-  ['   ', [false, 'La password es obligatoria.']],
-  ['1234567890', [false, 'La password debe contenter entre 12 y 32 caracteres.']],
-  ['1234abcdefg', [false, 'La password debe contenter entre 12 y 32 caracteres.']],
+  ['', [false, 'La contraseña es obligatoria.']],
+  ['   ', [false, 'La contraseña es obligatoria.']],
+  ['1234567890', [false, 'La contraseña debe contenter entre 12 y 32 caracteres.']],
+  ['1234abcdefg', [false, 'La contraseña debe contenter entre 12 y 32 caracteres.']],
   ['1234abcdefgh', [true, '']],
   ['_1234abC*efgh', [true, '']],
   ['evaichah5Vooyeop', [true, '']],
   ['shauyahLes0EelooRoghi1xahcahZ^ee', [true, '']],
-  ['   ab    2', [false, 'La password debe contenter entre 12 y 32 caracteres.']],
+  ['   ab    2', [false, 'La contraseña debe contenter entre 12 y 32 caracteres.']],
 ]
 
 describe('validatePass', () => {

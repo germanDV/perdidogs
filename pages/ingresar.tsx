@@ -47,7 +47,7 @@ const SignIn: NextPage = () => {
 
       <form onSubmit={handleSignin} style={{ width: 350, margin: '40px 0' }}>
         <Input type="text" id="email" placeholder="Email" />
-        <Input type="password" id="pass" placeholder="Password" />
+        <Input type="password" id="pass" placeholder="Contraseña" />
         <Button type="submit" fullWidth>
           Ingresar
         </Button>
