@@ -4,14 +4,15 @@ import { useState, FormEvent } from 'react'
 import Title from 'components/Title/Title'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
-import http from 'lib/http/http'
 import { validateName, validateEmail, validatePass } from 'lib/validator/validator'
+import { useUser } from 'hooks/use-user'
 
 type FormTarget = { elements: Record<string, { value: string }> }
 
 const SignUp: NextPage = () => {
   const [error, setError] = useState('')
   const router = useRouter()
+  const { signup } = useUser()
 
   const handleSignup = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -40,11 +41,7 @@ const SignUp: NextPage = () => {
     }
 
     try {
-      await http<{ token: string }>({
-        url: '/api/user/signup',
-        method: 'POST',
-        data: { name, email, pass },
-      })
+      await signup(name, email, pass)
       router.push('/')
     } catch (err) {
       console.error(err)

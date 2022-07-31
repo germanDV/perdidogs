@@ -22,7 +22,6 @@ async function http<T>(cfg: AxiosRequestConfig): Promise<T> {
     })
     return resp.data
   } catch (error) {
-    console.log(error)
     if (axios.isAxiosError(error)) {
       const code = error.response?.status || 500
       const name = error.code || 'UnknownHttpError'

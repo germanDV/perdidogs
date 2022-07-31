@@ -6,6 +6,7 @@
     "@next/next/no-head-element": "error",
     "@next/next/no-html-link-for-pages": "error",
     "@next/next/no-typos": "error",
-    "@next/next/no-unwanted-polyfillio": "error"
+    "@next/next/no-unwanted-polyfillio": "error",
+    "@typescript-eslint/no-empty-function": "off"
   }
 }

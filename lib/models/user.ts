@@ -12,7 +12,7 @@ import {
 
 const UserModel = conn.model('User', userSchema)
 
-export async function signup(user: SignupUser): Promise<string> {
+export async function signup(user: SignupUser): Promise<PublicUser> {
   const validationErrors: Record<string, string> = {}
 
   const [isValidName, nameError] = validateName(user.name)
@@ -38,7 +38,14 @@ export async function signup(user: SignupUser): Promise<string> {
     user.pass = await hash(user.pass)
     const u = new UserModel(user)
     const doc = await u.save()
-    return doc._id.toString()
+
+    const pu: PublicUser = {
+      _id: doc._id.toString(),
+      name: doc.name,
+      email: doc.email,
+    }
+
+    return pu
   } catch (err) {
     if (err && (err as { code: number }).code === 11000) {
       throw new DuplicateUserErr(`Usuario con email ${user.email} ya existe.`)
@@ -62,7 +69,7 @@ export async function find(id: string): Promise<PublicUser> {
   return u
 }
 
-export async function signin(creds: SigninUser): Promise<string> {
+export async function signin(creds: SigninUser): Promise<{ token: string; user: PublicUser }> {
   const validationErrors: Record<string, string> = {}
 
   const [isValidEmail, emailError] = validateEmail(creds.email)
@@ -89,6 +96,12 @@ export async function signin(creds: SigninUser): Promise<string> {
     throw new InvalidCredentials('Datos de ingreso inválidos.')
   }
 
+  const publicUser: PublicUser = {
+    _id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+  }
+
   const token = await generate({ sub: user._id.toString() })
-  return token
+  return { token, user: publicUser }
 }

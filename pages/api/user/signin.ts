@@ -1,18 +1,18 @@
 import { ApiRequest, ApiResponse } from 'lib/api/types'
 import { allowMethods } from 'lib/api/middleware/allow-methods'
 import { signin } from 'lib/models/user'
-import { SigninUser } from 'lib/models/user-schema'
+import { SigninUser, PublicUser } from 'lib/models/user-schema'
 import { AppError } from 'lib/errors'
 import { getAuthCookie } from 'lib/auth/cookie'
 
-type RespPayload = { token: string } | Omit<AppError, 'code'>
+type RespPayload = { token: string; user: PublicUser } | Omit<AppError, 'code'>
 
 async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   try {
-    const user: SigninUser = req.body
-    const token = await signin(user)
+    const creds: SigninUser = req.body
+    const { token, user } = await signin(creds)
     res.setHeader('Set-Cookie', getAuthCookie(token))
-    res.status(200).json({ token })
+    res.status(200).json({ token, user })
   } catch (err) {
     const error = err as AppError
     const code = error.code || 500
