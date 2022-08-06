@@ -1,4 +1,4 @@
-import { validateName, validatePass, validateEmail } from './validator'
+import { validateName, validatePass, validateEmail, validateDate } from './validator'
 
 type TestCase = [string, [boolean, string]]
 
@@ -60,5 +60,20 @@ const emailTestCases: TestCase[] = [
 describe('validateEmail', () => {
   test.each(emailTestCases)('validates email "%s"', (email, expected) => {
     expect(validateEmail(email)).toEqual(expected)
+  })
+})
+
+type DateTestCase = [number, [boolean, string]]
+
+const dateTestCases: DateTestCase[] = [
+  [0, [false, 'La fecha debe contener 8 dígitos.']],
+  [202209031, [false, 'La fecha debe contener 8 dígitos.']],
+  [220806, [false, 'La fecha debe contener 8 dígitos.']],
+  [20220806, [true, '']],
+]
+
+describe('validateDate', () => {
+  test.each(dateTestCases)('validates date "%s"', (date, expected) => {
+    expect(validateDate(date)).toEqual(expected)
   })
 })

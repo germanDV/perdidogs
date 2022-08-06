@@ -1,15 +1,17 @@
 import { ApiRequest, ApiResponse } from 'lib/api/types'
-import { allowMethods } from 'lib/api/middleware/allow-methods'
-import { Dog, save } from 'lib/models/dog'
+import { allowMethods, auth } from 'lib/api/middleware'
+import { save } from 'lib/models/dog'
+import { Dog } from 'lib/models/dog-schema'
 import { AppError } from 'lib/errors'
 
-type RespPayload = { id: number } | Omit<AppError, 'code'>
+type RespPayload = { id: string } | Omit<AppError, 'code'>
 
 async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   try {
-    const dog: Omit<Dog, '_id'> = req.body
-    const id = await save(dog)
-    res.status(200).json({ id })
+    const dog: Partial<Dog> = req.body
+    dog.creator = req.user._id
+    const d = await save(dog)
+    res.status(200).json({ id: d._id })
   } catch (err) {
     const error = err as AppError
     const code = error.code || 500
@@ -20,4 +22,4 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   }
 }
 
-export default allowMethods(handler, ['POST'])
+export default allowMethods(auth(handler), ['POST'])

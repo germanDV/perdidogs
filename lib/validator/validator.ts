@@ -2,40 +2,52 @@ interface ValidatorFunction<T = string> {
   (input: T): [boolean, string]
 }
 
-export const validateName: ValidatorFunction = (name) => {
-  const min = 2
-  const max = 32
+export const required = (input: string) => {
+  return input && input.trim()
+}
 
-  if (typeof name !== 'string' || !name.trim()) {
+export const min = (input: string | number, len: number) => {
+  if (typeof input === 'string') {
+    return input.trim().length >= len
+  }
+  if (typeof input === 'number') {
+    return input >= len
+  }
+  return false
+}
+
+export const max = (input: string | number, len: number) => {
+  if (typeof input === 'string') {
+    return input.length <= len
+  }
+  if (typeof input === 'number') {
+    return input <= len
+  }
+  return false
+}
+
+export const validateName: ValidatorFunction = (name) => {
+  if (!required(name)) {
     return [false, 'El nombre es obligatorio.']
   }
-
-  const n = name.trim()
-  if (n.length < min || n.length > max) {
-    return [false, `El nombre debe contenter entre ${min} y ${max} caracteres.`]
+  if (!min(name, 2) || !max(name, 32)) {
+    return [false, 'El nombre debe contenter entre 2 y 32 caracteres.']
   }
-
   return [true, '']
 }
 
 export const validatePass: ValidatorFunction = (pass) => {
-  const min = 12
-  const max = 32
-
-  if (typeof pass !== 'string' || !pass.trim()) {
+  if (!required(pass)) {
     return [false, 'La contraseña es obligatoria.']
   }
-
-  const p = pass.trim()
-  if (p.length < min || p.length > max) {
-    return [false, `La contraseña debe contenter entre ${min} y ${max} caracteres.`]
+  if (!min(pass, 12) || !max(pass, 32)) {
+    return [false, 'La contraseña debe contenter entre 12 y 32 caracteres.']
   }
-
   return [true, '']
 }
 
 export const validateEmail: ValidatorFunction = (email) => {
-  if (typeof email !== 'string' || !email.trim()) {
+  if (!required(email)) {
     return [false, 'El email es obligatorio.']
   }
 
@@ -44,5 +56,15 @@ export const validateEmail: ValidatorFunction = (email) => {
     return [false, 'Email inválido.']
   }
 
+  return [true, '']
+}
+
+export const validateDate: ValidatorFunction<number> = (date) => {
+  if (Number.isNaN(+date)) {
+    return [false, 'La fecha debe ser un número.']
+  }
+  if (!min(date, 10000000) || !max(date, 99999999)) {
+    return [false, 'La fecha debe contener 8 dígitos.']
+  }
   return [true, '']
 }

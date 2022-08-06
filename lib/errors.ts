@@ -63,6 +63,19 @@ export class BadInputError extends Error {
   }
 }
 
+export class DogNotFoundErr extends Error {
+  public name: string
+  public message: string
+  public code: number
+
+  constructor(msg: string) {
+    super(msg)
+    this.message = msg
+    this.name = 'DogNotFoundErr'
+    this.code = 404
+  }
+}
+
 export class HttpError extends Error {
   public name: string
   public message: string

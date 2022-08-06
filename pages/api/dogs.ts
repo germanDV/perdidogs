@@ -1,7 +1,8 @@
 import { ApiRequest, ApiResponse } from 'lib/api/types'
 import { AppError } from 'lib/errors'
-import { allowMethods } from 'lib/api/middleware/allow-methods'
-import { Dog, isDogStatus, fetchByStatus } from 'lib/models/dog'
+import { allowMethods } from 'lib/api/middleware'
+import { fetchByStatus } from 'lib/models/dog'
+import { Dog, isDogStatus } from 'lib/models/dog-schema'
 
 type RespPayload = Dog[] | Omit<AppError, 'code'>
 
@@ -15,7 +16,6 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
       name: 'BadRequest',
       message: '`status` inválido o faltante.',
     })
-
     return
   }
 

@@ -1,5 +1,5 @@
 import { ApiRequest, ApiResponse } from 'lib/api/types'
-import { allowMethods } from 'lib/api/middleware/allow-methods'
+import { allowMethods } from 'lib/api/middleware'
 import { AppError } from 'lib/errors'
 import { expireCookie } from 'lib/auth/cookie'
 

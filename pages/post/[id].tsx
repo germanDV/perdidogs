@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSideProps } from 'next'
-import { Dog } from 'lib/models/dog'
+import { Dog } from 'lib/models/dog-schema'
 import http from 'lib/http/http'
 import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'

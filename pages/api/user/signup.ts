@@ -1,5 +1,5 @@
 import { ApiRequest, ApiResponse } from 'lib/api/types'
-import { allowMethods } from 'lib/api/middleware/allow-methods'
+import { allowMethods } from 'lib/api/middleware'
 import { signup } from 'lib/models/user'
 import { SignupUser, PublicUser } from 'lib/models/user-schema'
 import { AppError } from 'lib/errors'
