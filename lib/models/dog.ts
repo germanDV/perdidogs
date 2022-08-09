@@ -83,3 +83,8 @@ export async function fetchByStatus(status: DogStatus): Promise<Dog[]> {
   const dogs: Dog[] = await DogModel.find({ status })
   return dogs
 }
+
+export async function remove(id: string): Promise<string> {
+  const deleted = await DogModel.findByIdAndDelete(id)
+  return deleted._id
+}
