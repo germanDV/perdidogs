@@ -9,10 +9,12 @@ import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
+import Modal from 'components/Modal/Modal'
 
 const NewDog: NextPage = () => {
   const [values, setValues] = useState<Record<string, string>>({})
   const [errors, setErrors] = useState<Record<string, string> | null>(null)
+  const [result, setResult] = useState('')
   const router = useRouter()
   const status = router.query.estado
 
@@ -45,12 +47,11 @@ const NewDog: NextPage = () => {
 
     try {
       const { id } = await http<{ id: string }>({ url: '/api/dogs/new', method: 'POST', data: dog })
-      // TODO: alert with success message
-      alert(`Created dog with ID: ${id}`)
+      setResult(`Created dog with ID: ${id}`)
       setValues({})
     } catch (err) {
       console.error(err)
-      // TODO: alert with error
+      setResult((err as Error).message)
     }
   }
 
@@ -116,6 +117,10 @@ const NewDog: NextPage = () => {
           Guardar
         </Button>
       </form>
+
+      <Modal open={!!result} title="Resultado" onClose={() => setResult('')} aria="Resultado">
+        <p>{result}</p>
+      </Modal>
     </main>
   )
 }
