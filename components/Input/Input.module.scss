@@ -1,17 +1,15 @@
 @import 'styles/variables';
 
-.input {
-  display: block;
-  width: 100%;
-  border-radius: 4px;
-  font-size: 1.1rem;
-  padding: 10px;
+.container {
   margin: 10px 0;
-  outline: none;
-  border: 1px solid $border-color;
 
-  &:active,
-  &:focus {
-    border: 2px solid $primary-color;
+  span {
+    color: $error;
+    font-size: 0.9rem;
+    font-style: italic;
   }
+}
+
+.error {
+  border: 1px solid $error;
 }

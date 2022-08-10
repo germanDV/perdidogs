@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState, FormEvent } from 'react'
 import Title from 'components/Title/Title'
-import Input from 'components/Input/Input'
+import UncontrolledInput from 'components/Input/UncontrolledInput'
 import Button from 'components/Button/Button'
 import { validateEmail, validatePass } from 'lib/validator/validator'
 import { useUser } from 'hooks/use-user'
@@ -46,8 +46,8 @@ const SignIn: NextPage = () => {
       <Title>Ingresar</Title>
 
       <form onSubmit={handleSignin} style={{ width: 350, margin: '40px 0' }}>
-        <Input type="text" id="email" placeholder="Email" />
-        <Input type="password" id="pass" placeholder="Contraseña" />
+        <UncontrolledInput type="text" id="email" placeholder="Email" />
+        <UncontrolledInput type="password" id="pass" placeholder="Contraseña" />
         <Button type="submit" fullWidth>
           Ingresar
         </Button>

@@ -1,3 +1,5 @@
+import { Dog, isDogBreed, isDogStatus } from 'lib/models/dog-schema'
+
 interface ValidatorFunction<T = string> {
   (input: T): [boolean, string]
 }
@@ -67,4 +69,59 @@ export const validateDate: ValidatorFunction<number> = (date) => {
     return [false, 'La fecha debe contener 8 dígitos.']
   }
   return [true, '']
+}
+
+export function validateDog(dog: Partial<Dog>): Record<string, string> | null {
+  let hasErrors = false
+  const validationErrors: Record<string, string> = {}
+
+  const [isValidName, nameError] = validateName(dog.name || '')
+  if (!isValidName) {
+    hasErrors = true
+    validationErrors.name = nameError
+  }
+
+  const [isValidDate, dateError] = validateDate(dog.date || 0)
+  if (!isValidDate) {
+    hasErrors = true
+    validationErrors.date = dateError
+  }
+
+  console.log(dog.color)
+  if (!dog.color || dog.color.length === 0) {
+    hasErrors = true
+    validationErrors.color = 'Debe indicar color.'
+  } else {
+    for (const c of dog.color) {
+      if (!required(c) || !min(c, 4) || !max(c, 32)) {
+        hasErrors = true
+        validationErrors.color = 'Debe contener entre 4 y 32 caracteres.'
+        break
+      }
+    }
+  }
+
+  const loc = dog.location || ''
+  if (!required(loc) || !min(loc, 4) || !max(loc, 32)) {
+    hasErrors = true
+    validationErrors.location = 'Debe contener entre 4 y 32 caracteres.'
+  }
+
+  const desc = dog.description || ''
+  if (!required(desc) || !min(desc, 50) || !max(desc, 1_000)) {
+    hasErrors = true
+    validationErrors.description = 'Debe contener entre 50 y 1000 caracteres.'
+  }
+
+  if (!isDogStatus(dog.status)) {
+    hasErrors = true
+    validationErrors.status = 'No es una opción válida.'
+  }
+
+  if (!isDogBreed(dog.breed)) {
+    hasErrors = true
+    validationErrors.breed = 'No es una opción válida.'
+  }
+
+  return hasErrors ? validationErrors : null
 }

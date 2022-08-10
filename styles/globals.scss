@@ -34,3 +34,22 @@ main {
   align-items: center;
 }
 
+input {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  padding: 10px;
+  margin-top: 10px;
+  outline: none;
+  border: 1px solid $border-color;
+
+  &:active,
+  &:focus {
+    border: 2px solid $primary-color;
+  }
+
+  .error {
+    border: 1px solid $error;
+  }
+}

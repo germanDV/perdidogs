@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState, FormEvent } from 'react'
 import Title from 'components/Title/Title'
-import Input from 'components/Input/Input'
+import UncontrolledInput from 'components/Input/UncontrolledInput'
 import Button from 'components/Button/Button'
 import { validateName, validateEmail, validatePass } from 'lib/validator/validator'
 import { useUser } from 'hooks/use-user'
@@ -60,10 +60,10 @@ const SignUp: NextPage = () => {
       <Title>Crear Cuenta</Title>
 
       <form onSubmit={handleSignup} style={{ width: 350, margin: '40px 0' }}>
-        <Input type="text" id="name" placeholder="Nombre" />
-        <Input type="text" id="email" placeholder="Email" />
-        <Input type="password" id="pass" placeholder="Contraseña" />
-        <Input type="password" id="repeat" placeholder="Repetir contraseña" />
+        <UncontrolledInput type="text" id="name" placeholder="Nombre" />
+        <UncontrolledInput type="text" id="email" placeholder="Email" />
+        <UncontrolledInput type="password" id="pass" placeholder="Contraseña" />
+        <UncontrolledInput type="password" id="repeat" placeholder="Repetir contraseña" />
         <Button type="submit" fullWidth>
           Registrarme
         </Button>
