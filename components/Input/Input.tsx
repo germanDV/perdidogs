@@ -6,22 +6,35 @@ type Props = {
   placeholder?: string
   type?: string
   value: string
-  onChange: (ev: ChangeEvent<HTMLInputElement>) => void
+  onChange: (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
   error: string
+  rows?: number
 }
 
-const Input: React.FC<Props> = ({ id, placeholder, type, value, onChange, error }) => {
+const Input: React.FC<Props> = ({ id, placeholder, type, value, onChange, error, rows }) => {
   return (
     <div className={styles.container}>
-      <input
-        className={error ? styles.error : ''}
-        type={type || 'text'}
-        id={id}
-        name={id}
-        placeholder={placeholder || ''}
-        value={value}
-        onChange={onChange}
-      />
+      {rows ? (
+        <textarea
+          rows={rows}
+          className={error ? styles.error : ''}
+          id={id}
+          name={id}
+          placeholder={placeholder || ''}
+          value={value}
+          onChange={onChange}
+        />
+      ) : (
+        <input
+          className={error ? styles.error : ''}
+          type={type || 'text'}
+          id={id}
+          name={id}
+          placeholder={placeholder || ''}
+          value={value}
+          onChange={onChange}
+        />
+      )}
       {error && <span>{error}</span>}
     </div>
   )

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useState, FormEvent, ChangeEvent } from 'react'
 import { Dog, Breeds, DogStatus } from 'lib/models/dog-schema'
 import { validateDog } from 'lib/validator/validator'
+import http from 'lib/http/http'
 import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
@@ -28,29 +29,32 @@ const NewDog: NextPage = () => {
 
     const dog: Partial<Dog> = {
       status: status === 'encontrado' ? DogStatus.FOUND : DogStatus.LOST,
-      name: status === 'encontrado' ? 'NN' : values.name,
+      name: status === 'encontrado' ? 'NN' : values.name?.trim(),
       date,
-      color: [values.color],
-      location: values.location,
-      description: values.description,
-      breed: values.breed as Breeds,
+      color: [values.color?.trim().toLowerCase()],
+      location: values.location?.trim(),
+      description: values.description?.trim(),
+      breed: values.breed?.trim().toLowerCase() as Breeds,
     }
 
-    // Validation.
     const errs = validateDog(dog)
     if (errs) {
       setErrors(errs)
       return
     }
 
-    // API request.
-
-    // Mensaje de éxito y limpiar formulario.
-    console.log('Nice!')
-    console.log(values)
+    try {
+      const { id } = await http<{ id: string }>({ url: '/api/dogs/new', method: 'POST', data: dog })
+      // TODO: alert with success message
+      alert(`Created dog with ID: ${id}`)
+      setValues({})
+    } catch (err) {
+      console.error(err)
+      // TODO: alert with error
+    }
   }
 
-  const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setValues((prev) => ({
       ...prev,
       [ev.target.name]: ev.target.value,
@@ -74,7 +78,6 @@ const NewDog: NextPage = () => {
           />
         )}
 
-        {/* API recibe un array de colores, podría ser un multi select */}
         <Input
           id="color"
           placeholder="Color"
@@ -83,22 +86,12 @@ const NewDog: NextPage = () => {
           error={errors?.color || ''}
         />
 
-        {/* Podría ser un select */}
         <Input
           id="location"
           placeholder="Lugar donde fue encontrado"
           value={values?.location || ''}
           onChange={handleChange}
           error={errors?.location || ''}
-        />
-
-        {/* Debería ser un textarea */}
-        <Input
-          id="description"
-          placeholder="Descripción"
-          value={values?.description || ''}
-          onChange={handleChange}
-          error={errors?.description || ''}
         />
 
         {/* Esto tiene que ser un select porque API define un Enum */}
@@ -108,6 +101,15 @@ const NewDog: NextPage = () => {
           value={values?.breed || ''}
           onChange={handleChange}
           error={errors?.breed || ''}
+        />
+
+        <Input
+          rows={5}
+          id="description"
+          placeholder="Descripción"
+          value={values?.description || ''}
+          onChange={handleChange}
+          error={errors?.description || ''}
         />
 
         <Button type="submit" fullWidth>

@@ -87,7 +87,6 @@ export function validateDog(dog: Partial<Dog>): Record<string, string> | null {
     validationErrors.date = dateError
   }
 
-  console.log(dog.color)
   if (!dog.color || dog.color.length === 0) {
     hasErrors = true
     validationErrors.color = 'Debe indicar color.'
@@ -108,9 +107,9 @@ export function validateDog(dog: Partial<Dog>): Record<string, string> | null {
   }
 
   const desc = dog.description || ''
-  if (!required(desc) || !min(desc, 50) || !max(desc, 1_000)) {
+  if (!required(desc) || !min(desc, 30) || !max(desc, 1_000)) {
     hasErrors = true
-    validationErrors.description = 'Debe contener entre 50 y 1000 caracteres.'
+    validationErrors.description = 'Debe contener entre 30 y 1000 caracteres.'
   }
 
   if (!isDogStatus(dog.status)) {
