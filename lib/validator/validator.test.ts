@@ -1,3 +1,4 @@
+/** @jest-environment node */
 import { validateName, validatePass, validateEmail, validateDate } from './validator'
 
 type TestCase = [string, [boolean, string]]
