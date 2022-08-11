@@ -10,6 +10,7 @@ import Subtitle from 'components/Subtitle/Subtitle'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
 import Alert from 'components/Alert/Alert'
+import BreedSelect from 'components/Select/BreedSelect'
 
 const NewDog: NextPage = () => {
   const [values, setValues] = useState<Record<string, string>>({})
@@ -60,7 +61,9 @@ const NewDog: NextPage = () => {
     }
   }
 
-  const handleChange = (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setValues((prev) => ({
       ...prev,
       [ev.target.name]: ev.target.value,
@@ -100,14 +103,7 @@ const NewDog: NextPage = () => {
           error={errors?.location || ''}
         />
 
-        {/* Esto tiene que ser un select porque API define un Enum */}
-        <Input
-          id="breed"
-          placeholder="Raza"
-          value={values?.breed || ''}
-          onChange={handleChange}
-          error={errors?.breed || ''}
-        />
+        <BreedSelect id="breed" value={values?.breed || ''} onChange={handleChange} />
 
         <Input
           rows={5}

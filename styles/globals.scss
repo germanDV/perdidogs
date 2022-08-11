@@ -34,6 +34,7 @@ main {
   align-items: center;
 }
 
+select,
 textarea,
 input {
   display: block;
@@ -44,6 +45,7 @@ input {
   margin-top: 10px;
   outline: none;
   border: 1px solid $border-color;
+  background-color: transparent;
 
   &:active,
   &:focus {
