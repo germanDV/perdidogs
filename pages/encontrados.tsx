@@ -2,7 +2,7 @@ import type { NextPage, GetServerSideProps } from 'next'
 import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
-import { Dog } from 'lib/models/dog'
+import { Dog } from 'lib/models/dog-schema'
 import http from 'lib/http/http'
 
 type Props = {

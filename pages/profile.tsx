@@ -18,7 +18,7 @@ const Profile: NextPage<Props> = ({ user, error }) => {
       const data = await http<{ user: PublicUser }>({ url: '/api/user/me' })
       setClientUser(data.user)
     } catch (err) {
-      console.log(err.response.data)
+      console.log(err)
     }
   }
 
