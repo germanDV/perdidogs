@@ -9,18 +9,19 @@ import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
-import Modal from 'components/Modal/Modal'
+import Alert from 'components/Alert/Alert'
 
 const NewDog: NextPage = () => {
   const [values, setValues] = useState<Record<string, string>>({})
   const [errors, setErrors] = useState<Record<string, string> | null>(null)
-  const [result, setResult] = useState('')
+  const [result, setResult] = useState({ message: '', isError: false })
   const router = useRouter()
   const status = router.query.estado
 
   const handleNewDog = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
     setErrors(null)
+    setResult({ message: '', isError: false })
 
     // Date siempre es hoy.
     const today = new Date()
@@ -46,12 +47,16 @@ const NewDog: NextPage = () => {
     }
 
     try {
-      const { id } = await http<{ id: string }>({ url: '/api/dogs/new', method: 'POST', data: dog })
-      setResult(`Created dog with ID: ${id}`)
+      const { id } = await http<{ id: string }>({
+        url: '/api/dowgs/new',
+        method: 'POST',
+        data: dog,
+      })
+      setResult({ message: `Created dog with ID: ${id}`, isError: false })
       setValues({})
     } catch (err) {
       console.error(err)
-      setResult((err as Error).message)
+      setResult({ message: (err as Error).message, isError: true })
     }
   }
 
@@ -116,11 +121,11 @@ const NewDog: NextPage = () => {
         <Button type="submit" fullWidth>
           Guardar
         </Button>
-      </form>
 
-      <Modal open={!!result} title="Resultado" onClose={() => setResult('')} aria="Resultado">
-        <p>{result}</p>
-      </Modal>
+        {result.message && (
+          <Alert category={result.isError ? 'error' : 'success'}>{result.message}</Alert>
+        )}
+      </form>
     </main>
   )
 }

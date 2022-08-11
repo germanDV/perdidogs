@@ -697,6 +697,16 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@reach/alert@^0.17.0":
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/@reach/alert/-/alert-0.17.0.tgz#94b2fc13c3b192a2652766c806b90b76a4fc7cbc"
+  integrity sha512-O70K5LCRJNPMKSX2DVK9GL7VJnyqhV7nAOlcDyx0hGmJzDXUVDIxHAgXO8WHSRekWOaOlup+VeN+R9y+LFBpPA==
+  dependencies:
+    "@reach/utils" "0.17.0"
+    "@reach/visually-hidden" "0.17.0"
+    prop-types "^15.7.2"
+    tslib "^2.3.0"
+
 "@reach/dialog@^0.17.0":
   version "0.17.0"
   resolved "https://registry.yarnpkg.com/@reach/dialog/-/dialog-0.17.0.tgz#81c48dd4405945dfc6b6c3e5e125db2c4324e9e8"
@@ -724,6 +734,14 @@
   integrity sha512-M5y8fCBbrWeIsxedgcSw6oDlAMQDkl5uv3VnMVJ7guwpf4E48Xlh1v66z/1BgN/WYe2y8mB/ilFD2nysEfdGeA==
   dependencies:
     tiny-warning "^1.0.3"
+    tslib "^2.3.0"
+
+"@reach/visually-hidden@0.17.0":
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/@reach/visually-hidden/-/visually-hidden-0.17.0.tgz#033adba10b5ec419649da8d6bd8e46db06d4c3a1"
+  integrity sha512-T6xF3Nv8vVnjVkGU6cm0+kWtvliLqPAo8PcZ+WxkKacZsaHTjaZb4v1PaCcyQHmuTNT/vtTVNOJLG0SjQOIb7g==
+  dependencies:
+    prop-types "^15.7.2"
     tslib "^2.3.0"
 
 "@rushstack/eslint-patch@^1.1.3":
