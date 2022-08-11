@@ -9,7 +9,13 @@ type Props = {
 
 const BreedSelect = ({ id, value, onChange }: Props) => {
   return (
-    <select name={id} id={id} value={value} onChange={onChange}>
+    <select
+      name={id}
+      id={id}
+      value={value}
+      onChange={onChange}
+      style={{ textTransform: 'capitalize' }}
+    >
       {Object.values(Breeds).map((b) => (
         <option key={b} value={b}>
           {b}
