@@ -1,0 +1,40 @@
+import { trusted } from 'mongoose'
+import { max, validateDate } from 'lib/validator/validator'
+import { isDogStatus, isDogBreed } from 'lib/models/dog-schema'
+
+export function buildFilters(
+  query: Partial<{
+    [key: string]: string | string[]
+  }>
+): Record<string, string | RegExp | Record<string, string | number | string[]>> {
+  const filters: Record<string, string | RegExp | Record<string, string | number | string[]>> = {}
+
+  if (query.status && isDogStatus(query.status)) {
+    filters.status = query.status
+  } else {
+    // We don't want `resolved` cases.
+    filters.status = trusted({ $in: ['perdido', 'encontrado'] })
+  }
+
+  if (query.breed && isDogBreed(query.breed)) {
+    filters.breed = query.breed
+  }
+
+  if (query.color && typeof query.color === 'string' && max(query.color, 32)) {
+    filters.color = trusted({ $in: [query.color.trim().toLowerCase()] })
+  }
+
+  if (query.location && typeof query.location === 'string' && max(query.location, 100)) {
+    filters.location = new RegExp(query.location.trim(), 'i')
+  }
+
+  if (query.from) {
+    const [isValidDate] = validateDate(+query.from)
+    if (isValidDate) {
+      filters.date = trusted({ $gte: +query.from })
+    }
+  }
+
+  console.log(filters)
+  return filters
+}

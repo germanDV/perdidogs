@@ -101,9 +101,9 @@ export function validateDog(dog: Partial<Dog>): Record<string, string> | null {
   }
 
   const loc = dog.location || ''
-  if (!required(loc) || !min(loc, 4) || !max(loc, 32)) {
+  if (!required(loc) || !min(loc, 4) || !max(loc, 100)) {
     hasErrors = true
-    validationErrors.location = 'Debe contener entre 4 y 32 caracteres.'
+    validationErrors.location = 'Debe contener entre 4 y 100 caracteres.'
   }
 
   const desc = dog.description || ''

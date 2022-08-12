@@ -39,3 +39,8 @@ export async function remove(id: string): Promise<string> {
   const deleted = await DogModel.findByIdAndDelete(id)
   return deleted._id
 }
+
+export async function findAll(filters: Record<string, string | number>): Promise<Dog[]> {
+  const dogs: Dog[] = await DogModel.find(filters).sort({ date: 'desc' })
+  return dogs
+}
