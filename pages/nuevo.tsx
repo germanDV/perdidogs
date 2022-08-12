@@ -11,13 +11,39 @@ import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
 import Alert from 'components/Alert/Alert'
 import BreedSelect from 'components/Select/BreedSelect'
+import ConfirmPost from 'components/Modal/ConfirmPost'
 
 const NewDog: NextPage = () => {
   const [values, setValues] = useState<Record<string, string>>({})
   const [errors, setErrors] = useState<Record<string, string> | null>(null)
   const [result, setResult] = useState({ message: '', isError: false })
+  const [open, setOpen] = useState(false)
+  const [dog, setDog] = useState<Partial<Dog>>({})
   const router = useRouter()
   const status = router.query.estado
+
+  const onConfirm = async () => {
+    try {
+      const { id } = await http<{ id: string }>({
+        url: '/api/dogs/new',
+        method: 'POST',
+        data: dog,
+      })
+      setResult({ message: `Reporte creado exitosamente (ID: ${id})`, isError: false })
+      setValues({})
+    } catch (err) {
+      console.error(err)
+      setResult({ message: (err as Error).message, isError: true })
+    } finally {
+      setDog({})
+      setOpen(false)
+    }
+  }
+
+  const onCancel = () => {
+    setDog({})
+    setOpen(false)
+  }
 
   const handleNewDog = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -43,22 +69,13 @@ const NewDog: NextPage = () => {
 
     const errs = validateDog(dog)
     if (errs) {
+      setDog({})
       setErrors(errs)
       return
     }
 
-    try {
-      const { id } = await http<{ id: string }>({
-        url: '/api/dowgs/new',
-        method: 'POST',
-        data: dog,
-      })
-      setResult({ message: `Created dog with ID: ${id}`, isError: false })
-      setValues({})
-    } catch (err) {
-      console.error(err)
-      setResult({ message: (err as Error).message, isError: true })
-    }
+    setDog(dog)
+    setOpen(true)
   }
 
   const handleChange = (
@@ -122,6 +139,14 @@ const NewDog: NextPage = () => {
           <Alert category={result.isError ? 'error' : 'success'}>{result.message}</Alert>
         )}
       </form>
+
+      <ConfirmPost
+        open={open}
+        aria="confirmar reporte"
+        onClose={onCancel}
+        onConfirm={onConfirm}
+        status={String(status)}
+      />
     </main>
   )
 }

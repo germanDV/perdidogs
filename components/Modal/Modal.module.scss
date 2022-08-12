@@ -1,5 +1,29 @@
 @import 'styles/variables';
 
-.title {
-  color: #00ff00;
+.container {
+  border-radius: 8px;
+
+  @media (max-width: 600px) {
+    width: 80vw;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-weight: lighter;
+    font-size: 1.5rem;
+    letter-spacing: 0.1rem;
+    color: $grey;
+    margin: 0;
+    word-wrap: break-word;
+  }
+}
+
+.btn {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 10px;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
