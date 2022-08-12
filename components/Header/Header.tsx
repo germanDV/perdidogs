@@ -23,9 +23,12 @@ const Header = () => {
             <NavLink to="/ingresar">Ingresar</NavLink>
           </>
         ) : (
-          <Button category="secondary" onClick={handleSignout}>
-            Salir
-          </Button>
+          <>
+            <NavLink to="/reportes">Mis Reportes</NavLink>
+            <Button category="secondary" onClick={handleSignout}>
+              Salir
+            </Button>
+          </>
         )}
       </nav>
     </header>

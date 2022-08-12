@@ -11,6 +11,7 @@ export enum Breeds {
 export enum DogStatus {
   LOST = 'perdido',
   FOUND = 'encontrado',
+  RESOLVED = 'resuelto',
 }
 
 export function isDogStatus(s: string | string[] | undefined): s is DogStatus {
