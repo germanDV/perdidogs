@@ -2,6 +2,7 @@ import { conn } from 'lib/database'
 import { BadInputError, DogNotFoundErr } from 'lib/errors'
 import { dogSchema, DogStatus, Dog } from './dog-schema'
 import { validateDog } from 'lib/validator/validator'
+import { Filters } from 'lib/filters'
 
 const DogModel = conn.model('Dog', dogSchema)
 
@@ -40,7 +41,7 @@ export async function remove(id: string): Promise<string> {
   return deleted._id
 }
 
-export async function findAll(filters: Record<string, string | number>): Promise<Dog[]> {
+export async function findAll(filters: Filters): Promise<Dog[]> {
   const dogs: Dog[] = await DogModel.find(filters).sort({ date: 'desc' })
   return dogs
 }

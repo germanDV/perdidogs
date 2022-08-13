@@ -2,12 +2,14 @@ import { trusted } from 'mongoose'
 import { max, validateDate } from 'lib/validator/validator'
 import { isDogStatus, isDogBreed } from 'lib/models/dog-schema'
 
+export type Filters = Record<string, string | RegExp | Record<string, string | number | string[]>>
+
 export function buildFilters(
   query: Partial<{
     [key: string]: string | string[]
   }>
-): Record<string, string | RegExp | Record<string, string | number | string[]>> {
-  const filters: Record<string, string | RegExp | Record<string, string | number | string[]>> = {}
+): Filters {
+  const filters: Filters = {}
 
   if (query.status && isDogStatus(query.status)) {
     filters.status = query.status
