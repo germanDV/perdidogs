@@ -22,6 +22,14 @@ export function buildFilters(
     filters.breed = query.breed
   }
 
+  if (
+    query.gender &&
+    typeof query.gender === 'string' &&
+    ['m', 'f'].includes(query.gender.toLowerCase())
+  ) {
+    filters.gender = query.gender.toLowerCase()
+  }
+
   if (query.color && typeof query.color === 'string' && max(query.color, 32)) {
     filters.color = trusted({ $in: [query.color.trim().toLowerCase()] })
   }

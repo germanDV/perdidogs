@@ -71,6 +71,13 @@ export const validateDate: ValidatorFunction<number> = (date) => {
   return [true, '']
 }
 
+export const validateGender: ValidatorFunction = (gender) => {
+  if (!gender || !['m', 'f'].includes(gender)) {
+    return [false, 'El género debe ser "m" o "f".']
+  }
+  return [true, '']
+}
+
 export function validateDog(dog: Partial<Dog>): Record<string, string> | null {
   let hasErrors = false
   const validationErrors: Record<string, string> = {}
@@ -85,6 +92,12 @@ export function validateDog(dog: Partial<Dog>): Record<string, string> | null {
   if (!isValidDate) {
     hasErrors = true
     validationErrors.date = dateError
+  }
+
+  const [isValidGender, genderError] = validateGender(dog.gender || '')
+  if (!isValidGender) {
+    hasErrors = true
+    validationErrors.gender = genderError
   }
 
   if (!dog.color || dog.color.length === 0) {

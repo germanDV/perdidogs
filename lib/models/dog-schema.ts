@@ -24,6 +24,7 @@ export function isDogBreed(s: string | string[] | undefined): s is Breeds {
 
 export type Dog = {
   _id: string
+  gender: 'm' | 'f'
   name: string
   date: number
   color: string[]
@@ -36,6 +37,10 @@ export type Dog = {
 }
 
 export const dogSchema = new mongoose.Schema({
+  gender: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
   },
