@@ -11,15 +11,22 @@ import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
 import Alert from 'components/Alert/Alert'
 import BreedSelect from 'components/Select/BreedSelect'
+import GenderSelect from 'components/Select/GenderSelect'
 import ConfirmPost from 'components/Modal/ConfirmPost'
 
 const NewDog: NextPage = () => {
-  const [values, setValues] = useState<Record<string, string>>({})
+  // Set defaults for the `select`s
+  const [values, setValues] = useState<Record<string, string>>(() => ({
+    breed: Breeds.LABRADOR,
+    gender: 'f',
+  }))
+
   const [errors, setErrors] = useState<Record<string, string> | null>(null)
   const [result, setResult] = useState({ message: '', isError: false })
   const [open, setOpen] = useState(false)
   const [dog, setDog] = useState<Partial<Dog>>({})
   const router = useRouter()
+
   const status = router.query.estado
 
   const onConfirm = async () => {
@@ -64,7 +71,8 @@ const NewDog: NextPage = () => {
       color: [values.color?.trim().toLowerCase()],
       location: values.location?.trim(),
       description: values.description?.trim(),
-      breed: values.breed?.trim().toLowerCase() as Breeds,
+      breed: values.breed?.toLowerCase() as Breeds,
+      gender: values.gender === 'm' ? 'm' : 'f',
     }
 
     const errs = validateDog(dog)
@@ -104,6 +112,10 @@ const NewDog: NextPage = () => {
           />
         )}
 
+        <BreedSelect id="breed" value={values?.breed || ''} onChange={handleChange} />
+
+        <GenderSelect id="gender" value={values?.gender || ''} onChange={handleChange} />
+
         <Input
           id="color"
           placeholder="Color"
@@ -119,8 +131,6 @@ const NewDog: NextPage = () => {
           onChange={handleChange}
           error={errors?.location || ''}
         />
-
-        <BreedSelect id="breed" value={values?.breed || ''} onChange={handleChange} />
 
         <Input
           rows={5}
