@@ -1,0 +1,24 @@
+@import 'styles/variables';
+
+.container {
+  border: 1px solid $grey;
+  display: flex;
+  margin: 4px 0;
+  font-size: 1.2rem;
+  border-radius: 4px;
+
+  div {
+    padding: 14px;
+    min-width: 150px;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+.label {
+  text-transform: capitalize;
+  background-color: $black;
+  color: $white;
+}
