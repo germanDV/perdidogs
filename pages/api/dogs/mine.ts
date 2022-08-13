@@ -1,6 +1,7 @@
 import { ApiRequest, ApiResponse } from 'lib/api/types'
 import { AppError } from 'lib/errors'
 import { allowMethods, auth } from 'lib/api/middleware'
+import { sendError } from 'lib/api/err-response'
 import { fetchByCreator } from 'lib/models/dog'
 import { Dog } from 'lib/models/dog-schema'
 
@@ -11,12 +12,7 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
     const dogs = await fetchByCreator(req.user._id)
     res.status(200).json(dogs)
   } catch (err) {
-    const error = err as AppError
-    const code = error.code || 500
-    res.status(code).json({
-      name: error.name || 'InternalServer',
-      message: error.message,
-    })
+    sendError(res, err)
   }
 }
 

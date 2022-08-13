@@ -1,4 +1,10 @@
-export class DuplicateUserErr extends Error {
+export interface AppError {
+  message: string
+  name: string
+  code: number
+}
+
+export class DuplicateUserErr extends Error implements AppError {
   public name: string
   public message: string
   public code: number
@@ -11,7 +17,7 @@ export class DuplicateUserErr extends Error {
   }
 }
 
-export class UserNotFoundErr extends Error {
+export class UserNotFoundErr extends Error implements AppError {
   public name: string
   public message: string
   public code: number
@@ -24,7 +30,7 @@ export class UserNotFoundErr extends Error {
   }
 }
 
-export class InvalidCredentials extends Error {
+export class InvalidCredentials extends Error implements AppError {
   public name: string
   public message: string
   public code: number
@@ -37,7 +43,7 @@ export class InvalidCredentials extends Error {
   }
 }
 
-export class UnauthenticatedUser extends Error {
+export class UnauthenticatedUser extends Error implements AppError {
   public name: string
   public message: string
   public code: number
@@ -50,7 +56,7 @@ export class UnauthenticatedUser extends Error {
   }
 }
 
-export class BadInputError extends Error {
+export class BadInputError extends Error implements AppError {
   public name: string
   public message: string
   public code: number
@@ -63,7 +69,7 @@ export class BadInputError extends Error {
   }
 }
 
-export class DogNotFoundErr extends Error {
+export class DogNotFoundErr extends Error implements AppError {
   public name: string
   public message: string
   public code: number
@@ -76,7 +82,7 @@ export class DogNotFoundErr extends Error {
   }
 }
 
-export class HttpError extends Error {
+export class HttpError extends Error implements AppError {
   public name: string
   public message: string
   public code: number
@@ -89,4 +95,14 @@ export class HttpError extends Error {
   }
 }
 
-export type AppError = { message: string; name: string; code: number }
+export function isAppError(error: unknown): error is AppError {
+  return (
+    error instanceof DuplicateUserErr ||
+    error instanceof UserNotFoundErr ||
+    error instanceof InvalidCredentials ||
+    error instanceof UnauthenticatedUser ||
+    error instanceof UnauthenticatedUser ||
+    error instanceof DogNotFoundErr ||
+    error instanceof HttpError
+  )
+}

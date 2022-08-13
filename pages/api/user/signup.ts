@@ -1,5 +1,6 @@
 import { ApiRequest, ApiResponse } from 'lib/api/types'
 import { allowMethods } from 'lib/api/middleware'
+import { sendError } from 'lib/api/err-response'
 import { signup } from 'lib/models/user'
 import { SignupUser, PublicUser } from 'lib/models/user-schema'
 import { AppError } from 'lib/errors'
@@ -16,12 +17,7 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
     res.setHeader('Set-Cookie', getAuthCookie(token))
     res.status(200).json({ user: publicUser, token })
   } catch (err) {
-    const error = err as AppError
-    const code = error.code || 500
-    res.status(code).json({
-      name: error.name || 'InternalServer',
-      message: error.message,
-    })
+    sendError(res, err)
   }
 }
 
