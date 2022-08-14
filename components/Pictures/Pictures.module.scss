@@ -1,0 +1,19 @@
+@import 'styles/variables';
+
+.container {
+  margin-bottom: 24px;
+}
+
+.stripe {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 12px;
+  grid-gap: 16px;
+  background-color: $white;
+
+  div {
+    cursor: pointer;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+}
