@@ -12,6 +12,7 @@ import Attribute from 'components/Attribute/Attribute'
 import ReportButtons from 'components/Button/ReportButtons'
 import Alert from 'components/Alert/Alert'
 import Contact from 'components/Contact/Contact'
+import Pictures from 'components/Pictures/Pictures'
 
 type Props = {
   dog: Dog | null
@@ -50,6 +51,8 @@ const Post: NextPage<Props> = ({ dog, error }) => {
       <Title>{getTitle(dog.gender, dog.status)}</Title>
 
       <div className={styles.data}>
+        <Pictures pictures={dog.pictures} />
+
         <Attribute label="raza" value={dog.breed} />
         <Attribute label="género" value={dog.gender === 'f' ? 'Hembra' : 'Macho'} />
         <Attribute label="fecha" value={printDate(dog.date)} />
