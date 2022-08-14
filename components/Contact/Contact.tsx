@@ -5,6 +5,7 @@ import Button from 'components/Button/Button'
 import Modal from 'components/Modal/Modal'
 import http from 'lib/http/http'
 import { HttpError } from 'lib/errors'
+import styles from './Contact.module.scss'
 
 type Props = {
   dog: Dog
@@ -12,8 +13,8 @@ type Props = {
 
 const Contact = ({ dog }: Props) => {
   const [open, setOpen] = useState(false)
-  const [user, setUser] = useState<PublicUser | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [contactDetails, setContactDetails] = useState('')
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const Contact = ({ dog }: Props) => {
       setLoading(true)
       try {
         const u = await http<PublicUser>({ url: `/api/user/contact?id=${dog.creator}` })
-        setUser(u)
+        setContactDetails(u.email)
       } catch (err) {
         if (err instanceof HttpError && err.code === 401) {
           setError('Tenés que ingresar para poder ver datos de contacto')
@@ -32,8 +33,13 @@ const Contact = ({ dog }: Props) => {
         setLoading(false)
       }
     }
-    fetchUser()
-  }, [dog.creator])
+
+    if (dog.contact) {
+      setContactDetails(dog.contact)
+    } else {
+      fetchUser()
+    }
+  }, [dog.contact, dog.creator])
 
   return (
     <div>
@@ -53,10 +59,8 @@ const Contact = ({ dog }: Props) => {
           <>
             <h4>Contacto</h4>
             <p>
-              Contactate por email a{' '}
-              <strong>
-                <a href={`mailto:${user?.email}`}>{user?.email}</a>
-              </strong>
+              Contactate con el creador del reporte:{' '}
+              <span className={styles.main}>{contactDetails}</span>
             </p>
           </>
         )}

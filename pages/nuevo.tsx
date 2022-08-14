@@ -73,6 +73,7 @@ const NewDog: NextPage = () => {
       description: values.description?.trim(),
       breed: values.breed?.toLowerCase() as Breeds,
       gender: values.gender === 'm' ? 'm' : 'f',
+      contact: values.contact?.trim() || '',
     }
 
     const errs = validateDog(dog)
@@ -126,7 +127,7 @@ const NewDog: NextPage = () => {
 
         <Input
           id="location"
-          placeholder="Lugar donde fue encontrado"
+          placeholder={`Lugar donde fue ${status}`}
           value={values?.location || ''}
           onChange={handleChange}
           error={errors?.location || ''}
@@ -139,6 +140,14 @@ const NewDog: NextPage = () => {
           value={values?.description || ''}
           onChange={handleChange}
           error={errors?.description || ''}
+        />
+
+        <Input
+          id="contact"
+          placeholder="Tus datos de contacto (opcional)"
+          value={values?.contact || ''}
+          onChange={handleChange}
+          error={errors?.contact || ''}
         />
 
         <Button type="submit" fullWidth>

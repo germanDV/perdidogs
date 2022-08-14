@@ -125,6 +125,14 @@ export function validateDog(dog: Partial<Dog>): Record<string, string> | null {
     validationErrors.description = 'Debe contener entre 30 y 1000 caracteres.'
   }
 
+  // Contact is optional
+  if (dog.contact) {
+    if (!required(dog.contact) || !min(dog.contact, 8) || !max(dog.contact, 100)) {
+      hasErrors = true
+      validationErrors.contact = 'Debe contener entre 8 y 100 caracteres.'
+    }
+  }
+
   if (!isDogStatus(dog.status)) {
     hasErrors = true
     validationErrors.status = 'No es una opción válida.'

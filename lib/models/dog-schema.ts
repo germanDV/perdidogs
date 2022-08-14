@@ -34,6 +34,7 @@ export type Dog = {
   description: string
   pictures?: string[]
   creator: string
+  contact?: string
 }
 
 export const dogSchema = new mongoose.Schema({
@@ -72,5 +73,8 @@ export const dogSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
     index: true,
+  },
+  contact: {
+    type: String,
   },
 })
