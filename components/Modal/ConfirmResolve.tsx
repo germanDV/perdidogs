@@ -6,7 +6,10 @@ const ConfirmResolve = ({ open, aria, onClose, onConfirm }: Props) => {
   return (
     <Modal open={open} aria={aria} onClose={onClose} onConfirm={onConfirm}>
       <h4>Confirmación</h4>
-      <p>Confirmación de que el perro ya ha sido entregado.</p>
+      <p>
+        ¿Deseas marcar este reporte como resuelto? Esto significa que el perro ha sido entregado a
+        su familia.
+      </p>
     </Modal>
   )
 }

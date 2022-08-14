@@ -1,4 +1,6 @@
 import type { NextPage, GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { Dog, DogStatus } from 'lib/models/dog-schema'
 import http from 'lib/http/http'
 import { printDate } from 'lib/date'
@@ -8,6 +10,7 @@ import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Attribute from 'components/Attribute/Attribute'
 import ReportButtons from 'components/Button/ReportButtons'
+import Alert from 'components/Alert/Alert'
 
 type Props = {
   dog: Dog | null
@@ -23,9 +26,21 @@ function getTitle(gender: 'm' | 'f', status: DogStatus): string {
 
 const Post: NextPage<Props> = ({ dog, error }) => {
   const { user } = useUser()
+  const router = useRouter()
+  const [apiError, setAPIError] = useState('')
+  const [message, setMessage] = useState('')
 
-  if (error || !dog) {
+  if (error || apiError || !dog) {
     return <p style={{ color: '#ff0000' }}>{error}</p>
+  }
+
+  const onError = (error: string) => {
+    setAPIError(error)
+  }
+
+  const onSuccess = () => {
+    setMessage('Operación exitosa, redirigiendo en 3s')
+    setTimeout(() => router.push('/reportes'), 3_000)
   }
 
   return (
@@ -42,7 +57,11 @@ const Post: NextPage<Props> = ({ dog, error }) => {
         <Attribute label="zona" value={dog.location} />
         <Attribute label="descripción" value={dog.description} />
 
-        {user && user._id === dog.creator ? <ReportButtons id={dog._id} /> : null}
+        {user && user._id === dog.creator ? (
+          <ReportButtons id={dog._id} onError={onError} onSuccess={onSuccess} />
+        ) : null}
+
+        {message && <Alert category="success">{message}</Alert>}
       </div>
     </main>
   )

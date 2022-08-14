@@ -69,6 +69,19 @@ export class BadInputError extends Error implements AppError {
   }
 }
 
+export class UpdateNotAllowed extends Error implements AppError {
+  public name: string
+  public message: string
+  public code: number
+
+  constructor(msg: string) {
+    super(msg)
+    this.message = msg
+    this.name = 'UpdateNotAllowed'
+    this.code = 400
+  }
+}
+
 export class DogNotFoundErr extends Error implements AppError {
   public name: string
   public message: string
@@ -103,6 +116,7 @@ export function isAppError(error: unknown): error is AppError {
     error instanceof UnauthenticatedUser ||
     error instanceof UnauthenticatedUser ||
     error instanceof DogNotFoundErr ||
-    error instanceof HttpError
+    error instanceof HttpError ||
+    error instanceof UpdateNotAllowed
   )
 }

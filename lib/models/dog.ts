@@ -36,9 +36,16 @@ export async function fetchByCreator(creatorId: string): Promise<Dog[]> {
   return dogs
 }
 
-export async function remove(id: string): Promise<string> {
-  const deleted = await DogModel.findByIdAndDelete(id)
+export async function remove(dogId: string, creatorId: string): Promise<string> {
+  const deleted = await DogModel.findOneAndDelete({ _id: dogId, creator: creatorId })
   return deleted._id
+}
+
+export async function update(dogId: string, creatorId: string, updates: Filters): Promise<Dog> {
+  const filters = { _id: dogId, creator: creatorId }
+  const opts = { new: true }
+  const dog: Dog = await DogModel.findOneAndUpdate(filters, updates, opts)
+  return dog
 }
 
 export async function findAll(filters: Filters): Promise<Dog[]> {

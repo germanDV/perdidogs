@@ -19,5 +19,9 @@ export function sendError(res: ApiResponse<AppError>, error: unknown) {
   }
 
   console.error(error)
-  res.status(error.code).json(error)
+  res.status(error.code).json({
+    code: error.code,
+    name: error.name,
+    message: error.message,
+  })
 }
