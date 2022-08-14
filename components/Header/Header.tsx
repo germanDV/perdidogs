@@ -24,7 +24,9 @@ const Header = () => {
           </>
         ) : (
           <>
-            <NavLink to="/reportes">Mis Reportes</NavLink>
+            <NavLink to="/reportes" style={{ paddingTop: 6 }}>
+              Mis Reportes
+            </NavLink>
             <Button category="secondary" onClick={handleSignout}>
               Salir
             </Button>
