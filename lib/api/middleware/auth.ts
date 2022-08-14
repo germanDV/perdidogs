@@ -21,7 +21,7 @@ export const auth = (handler: ApiHandler) => {
     }
 
     if (!token) {
-      res.status(401).send('Falta token the autenticación.')
+      res.status(401).send({ message: 'Falta token de autenticación.' })
       return
     }
 

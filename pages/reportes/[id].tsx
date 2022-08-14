@@ -11,6 +11,7 @@ import Title from 'components/Title/Title'
 import Attribute from 'components/Attribute/Attribute'
 import ReportButtons from 'components/Button/ReportButtons'
 import Alert from 'components/Alert/Alert'
+import Contact from 'components/Contact/Contact'
 
 type Props = {
   dog: Dog | null
@@ -59,7 +60,9 @@ const Post: NextPage<Props> = ({ dog, error }) => {
 
         {user && user._id === dog.creator ? (
           <ReportButtons id={dog._id} onError={onError} onSuccess={onSuccess} />
-        ) : null}
+        ) : (
+          <Contact dog={dog} />
+        )}
 
         {message && <Alert category="success">{message}</Alert>}
       </div>
