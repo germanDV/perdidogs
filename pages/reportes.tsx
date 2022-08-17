@@ -3,6 +3,7 @@ import { Dog } from 'lib/models/dog-schema'
 import http from 'lib/http/http'
 import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
+import Subtitle from 'components/Subtitle/Subtitle'
 import Dogs from 'components/Dogs/Dogs'
 
 type Props = {
@@ -15,7 +16,7 @@ const Reports: NextPage<Props> = ({ dogs, error }) => {
     <main>
       <BackLink to="/" label="Inicio" />
       <Title>Mis Reportes</Title>
-      <br />
+      <Subtitle>{}</Subtitle>
       {error ? <p style={{ color: '#ff0000' }}>{error}</p> : <Dogs dogs={dogs} />}
     </main>
   )
