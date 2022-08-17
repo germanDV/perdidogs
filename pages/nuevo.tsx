@@ -13,6 +13,14 @@ import Alert from 'components/Alert/Alert'
 import BreedSelect from 'components/Select/BreedSelect'
 import GenderSelect from 'components/Select/GenderSelect'
 import ConfirmPost from 'components/Modal/ConfirmPost'
+import AddPictureLinks from 'components/Pictures/AddPictureLinks'
+
+// TODO: improve, move to lib/ and add tests
+let id = 1
+function generateId() {
+  id++
+  return id.toString()
+}
 
 const NewDog: NextPage = () => {
   // Set defaults for the `select`s
@@ -21,6 +29,7 @@ const NewDog: NextPage = () => {
     gender: 'f',
   }))
 
+  const [pictureURLs, setPictureURLs] = useState<Record<string, string>>({})
   const [errors, setErrors] = useState<Record<string, string> | null>(null)
   const [result, setResult] = useState({ message: '', isError: false })
   const [open, setOpen] = useState(false)
@@ -96,6 +105,19 @@ const NewDog: NextPage = () => {
     }))
   }
 
+  const addPictureInput = () => {
+    setPictureURLs((prev) => ({ ...prev, [generateId()]: '' }))
+  }
+
+  const handlePictureChange = (
+    ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setPictureURLs((prev) => ({
+      ...prev,
+      [ev.target.name]: ev.target.value,
+    }))
+  }
+
   return (
     <main>
       <BackLink to="/" label="Inicio" />
@@ -148,6 +170,12 @@ const NewDog: NextPage = () => {
           value={values?.contact || ''}
           onChange={handleChange}
           error={errors?.contact || ''}
+        />
+
+        <AddPictureLinks
+          urls={pictureURLs}
+          onChange={handlePictureChange}
+          addPictureInput={addPictureInput}
         />
 
         <Button type="submit" fullWidth>
