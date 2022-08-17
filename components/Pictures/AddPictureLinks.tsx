@@ -1,30 +1,28 @@
 import Image from 'next/image'
-import { ChangeEvent } from 'react'
+import { useState, ChangeEvent } from 'react'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
+import Alert from 'components/Alert/Alert'
 import styles from './AddPictureLinks.module.scss'
-
-// TODO: improve, move to lib/ and add tests
-function isValidImgURL(url: string): boolean {
-  return Boolean(
-    url && typeof url === 'string' && url.trim().length > 0 && url.startsWith('https://')
-  )
-}
-
-const MAX_PICTURES = 6
+import { isValidImgURL } from 'lib/validator/validator'
+import { MAX_PICTURES } from 'lib/models/dog-schema'
 
 type Props = {
   urls: Record<string, string>
   onChange: (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
   addPictureInput: () => void
+  error: string
 }
 
-const AddPictureLinks = ({ urls, onChange, addPictureInput }: Props) => {
+const AddPictureLinks = ({ urls, onChange, addPictureInput, error }: Props) => {
+  const [maxError, setMaxError] = useState('')
+
   const handleAddPictureInput = () => {
     if (Object.keys(urls).length >= MAX_PICTURES) {
-      alert(`Máximo ${MAX_PICTURES} fotos.`)
+      setMaxError(`Máximo ${MAX_PICTURES} fotos.`)
       return
     }
+    setMaxError('')
     addPictureInput()
   }
 
@@ -53,6 +51,12 @@ const AddPictureLinks = ({ urls, onChange, addPictureInput }: Props) => {
           +
         </Button>
       </div>
+
+      {error || maxError ? (
+        <Alert category="error" onClose={() => setMaxError('')}>
+          {error || maxError}
+        </Alert>
+      ) : null}
     </div>
   )
 }

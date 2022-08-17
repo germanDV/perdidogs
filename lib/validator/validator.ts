@@ -1,4 +1,6 @@
-import { Dog, isDogBreed, isDogStatus } from 'lib/models/dog-schema'
+import { Dog, isDogBreed, isDogStatus, MAX_PICTURES } from 'lib/models/dog-schema'
+
+const ACCEPTABLE_IMG_FORMATS = ['jpg', 'jpeg', 'png', 'webp']
 
 interface ValidatorFunction<T = string> {
   (input: T): [boolean, string]
@@ -143,5 +145,26 @@ export function validateDog(dog: Partial<Dog>): Record<string, string> | null {
     validationErrors.breed = 'No es una opción válida.'
   }
 
+  if (!dog.pictures || dog.pictures.length === 0) {
+    hasErrors = true
+    validationErrors.pictures = 'Al menos una foto es obligatoria.'
+  } else if (dog.pictures.length > MAX_PICTURES) {
+    hasErrors = true
+    validationErrors.pictures = `Máximo ${MAX_PICTURES} fotos.`
+  }
+
   return hasErrors ? validationErrors : null
+}
+
+export function isValidImgURL(url: string): boolean {
+  if (!url || typeof url !== 'string' || url.trim().length === 0 || !url.startsWith('https://')) {
+    return false
+  }
+
+  const extension = url.split('.').pop() || ''
+  if (!ACCEPTABLE_IMG_FORMATS.includes(extension.toLowerCase())) {
+    return false
+  }
+
+  return true
 }

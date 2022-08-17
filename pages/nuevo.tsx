@@ -14,13 +14,10 @@ import BreedSelect from 'components/Select/BreedSelect'
 import GenderSelect from 'components/Select/GenderSelect'
 import ConfirmPost from 'components/Modal/ConfirmPost'
 import AddPictureLinks from 'components/Pictures/AddPictureLinks'
+import { sanitizeImgURLs } from 'lib/validator/sanitize'
+import { idGenerator } from 'lib/id'
 
-// TODO: improve, move to lib/ and add tests
-let id = 1
-function generateId() {
-  id++
-  return id.toString()
-}
+const generateId = idGenerator()
 
 const NewDog: NextPage = () => {
   // Set defaults for the `select`s
@@ -52,6 +49,7 @@ const NewDog: NextPage = () => {
       setResult({ message: (err as Error).message, isError: true })
     } finally {
       setDog({})
+      setPictureURLs({})
       setOpen(false)
     }
   }
@@ -83,6 +81,7 @@ const NewDog: NextPage = () => {
       breed: values.breed?.toLowerCase() as Breeds,
       gender: values.gender === 'm' ? 'm' : 'f',
       contact: values.contact?.trim() || '',
+      pictures: sanitizeImgURLs(pictureURLs),
     }
 
     const errs = validateDog(dog)
@@ -176,6 +175,7 @@ const NewDog: NextPage = () => {
           urls={pictureURLs}
           onChange={handlePictureChange}
           addPictureInput={addPictureInput}
+          error={errors?.pictures || ''}
         />
 
         <Button type="submit" fullWidth>
