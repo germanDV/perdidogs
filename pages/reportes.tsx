@@ -3,6 +3,7 @@ import { Dog } from 'lib/models/dog-schema'
 import http from 'lib/http/http'
 import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
+import Dogs from 'components/Dogs/Dogs'
 
 type Props = {
   dogs: Dog[]
@@ -14,12 +15,8 @@ const Reports: NextPage<Props> = ({ dogs, error }) => {
     <main>
       <BackLink to="/" label="Inicio" />
       <Title>Mis Reportes</Title>
-
-      {error ? (
-        <p style={{ color: '#ff0000' }}>{error}</p>
-      ) : (
-        <pre>{JSON.stringify(dogs, null, 2)}</pre>
-      )}
+      <br />
+      {error ? <p style={{ color: '#ff0000' }}>{error}</p> : <Dogs dogs={dogs} />}
     </main>
   )
 }

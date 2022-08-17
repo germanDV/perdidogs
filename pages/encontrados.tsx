@@ -2,6 +2,7 @@ import type { NextPage, GetServerSideProps } from 'next'
 import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
+import Dogs from 'components/Dogs/Dogs'
 import { Dog } from 'lib/models/dog-schema'
 import http from 'lib/http/http'
 
@@ -16,12 +17,7 @@ const Encontrados: NextPage<Props> = ({ dogs, error }) => {
       <BackLink to="/" label="Inicio" />
       <Title>Encontrad@s</Title>
       <Subtitle>Perr@s buscando a su dueñ@</Subtitle>
-
-      {error ? (
-        <p style={{ color: '#ff0000' }}>{error}</p>
-      ) : (
-        <pre>{JSON.stringify(dogs, null, 2)}</pre>
-      )}
+      {error ? <p style={{ color: '#ff0000' }}>{error}</p> : <Dogs dogs={dogs} />}
     </main>
   )
 }
