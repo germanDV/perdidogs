@@ -1,0 +1,90 @@
+import { Breeds, Dog, DogStatus } from '../lib/models/dog-schema'
+
+export const DUMMY_DOGS: Omit<Omit<Dog, '_id'>, 'creator'>[] = [
+  {
+    name: 'Api',
+    date: 20220801,
+    color: ['marrón'],
+    status: DogStatus.LOST,
+    breed: Breeds.LABRADOR,
+    location: 'San Cristobal',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor',
+    pictures: [
+      'https://kamcord.com/wp-content/uploads/2020/07/labrador-mix-breeds-01-1024x676.jpg',
+      'https://dogsandcatshq.com/wp-content/uploads/2020/08/labrador-retriever-4446566_1920-1536x1152.jpg',
+      'https://www.fidosavvy.com/images/golden_labrador_1200_c.jpg',
+    ],
+    gender: 'f',
+    contact: '11 1234 5678',
+  },
+  {
+    name: 'Rocko',
+    date: 20220810,
+    color: ['blanco'],
+    status: DogStatus.LOST,
+    breed: Breeds.DOGO,
+    location: 'lugano',
+    description: 'El perro del mundo de Rocko, que capaz que no es un perro en realidad.',
+    pictures: [
+      'https://images2.minutemediacdn.com/image/upload/c_fill,g_auto,h_1248,w_2220/f_auto,q_auto,w_1100/v1555304494/shape/mentalfloss/rockoheader_0.png',
+      'https://nerdist.com/wp-content/uploads/2016/08/Rockos-Modern-Life.jpg',
+      'https://i.pinimg.com/originals/4a/f2/3a/4af23a4e63a8643140b6e00d3b157a6e.jpg',
+    ],
+    gender: 'm',
+  },
+  {
+    name: 'NN',
+    date: 20220810,
+    color: ['negro'],
+    status: DogStatus.FOUND,
+    breed: Breeds.CALLEJERO,
+    location: 'Villa Crespo',
+    description: 'Suele andar con resaca, por eso es normal verlo con gafas y tomando café.',
+    pictures: ['https://img.huffingtonpost.com/asset/58d196db1d0000cf3b7cfb0c.png'],
+    gender: 'f',
+  },
+  {
+    name: 'NN',
+    date: 20220812,
+    color: ['azul'],
+    status: DogStatus.FOUND,
+    breed: Breeds.OTRO,
+    location: 'Nikelodeon',
+    description:
+      'Es un perro azul que estaba en la TV pero lo encontré en la esquina de Gurruchaga y Córdoba. Qué sé yo?',
+    pictures: ['https://i.pinimg.com/736x/57/8b/33/578b3389d0f41531c46cc80b26e6774b.jpg'],
+    gender: 'f',
+  },
+  {
+    gender: 'f',
+    name: 'NN',
+    date: 20220813,
+    color: ['violeta'],
+    status: DogStatus.FOUND,
+    breed: Breeds.CALLEJERO,
+    location: 'Abajo de la cama',
+    description:
+      'Coraje el perro cobarde que es tan cobarde que hay que escribirlo dos veces, Coraje el perro cobarde.',
+    pictures: [
+      'https://noticias-ahora.com/wp-content/uploads/2018/10/coraje-perro.jpg',
+      'https://2.bp.blogspot.com/-QnUk05GTZUo/WWfSCl9LEvI/AAAAAAAAHOU/Q-BAtQOiflwGITuPxn8ZuI7jFKpKrXRsACLcBGAs/s1600/Sin%2Bt%25C3%25ADtulo-2.jpg',
+      'https://4.bp.blogspot.com/-2ju4lIFz9l4/V5FUxqjGEOI/AAAAAAAAXjw/4o4dgvWTeNsTi1Sb9DuWMSdV1qIAbazqwCLcB/s1600/Coraje.jpg',
+    ],
+  },
+  {
+    gender: 'm',
+    name: 'Pointer',
+    date: 20220817,
+    color: ['negro y blanco'],
+    status: DogStatus.LOST,
+    breed: Breeds.OTRO,
+    location: 'Burzaco',
+    description:
+      'The pointers are a variety of gun dogs, named so due to their ability to target at a game by pointing and further aiming towards it with its muzzle.',
+    pictures: [
+      'https://www.dogalize.com/wp-content/uploads/2017/01/pointer.jpg',
+      'https://allbigdogbreeds.com/wp-content/uploads/2015/06/English-Pointer-1.jpg',
+    ],
+    contact: '11 1234 5678',
+  },
+]
