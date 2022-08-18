@@ -4,9 +4,11 @@ type Props = {
   id: string
   value: string
   onChange: (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
+  allowEmpty?: boolean
+  emptyLabel?: string
 }
 
-const GenderSelect = ({ id, value, onChange }: Props) => {
+const GenderSelect = ({ id, value, onChange, allowEmpty, emptyLabel }: Props) => {
   return (
     <select
       name={id}
@@ -15,6 +17,7 @@ const GenderSelect = ({ id, value, onChange }: Props) => {
       onChange={onChange}
       style={{ textTransform: 'capitalize' }}
     >
+      {allowEmpty && <option value="">{emptyLabel}</option>}
       <option value="f">Hembra</option>
       <option value="m">Macho</option>
     </select>
