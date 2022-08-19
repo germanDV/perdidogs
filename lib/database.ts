@@ -13,7 +13,9 @@ const connOpts: ConnectOptions = {
   dbName: 'perdidogs',
 }
 
-const URI = IS_PROD ? `mongodb://${USER}:${PASS}@${HOST}:${PORT}` : `mongodb://${HOST}:${PORT}`
+const URI = IS_PROD
+  ? `mongodb+srv://${USER}:${PASS}@${HOST}/?retryWrites=true&w=majority`
+  : `mongodb://${HOST}:${PORT}`
 
 mongoose.set('sanitizeFilter', true)
 
