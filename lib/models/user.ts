@@ -105,3 +105,8 @@ export async function signin(creds: SigninUser): Promise<{ token: string; user: 
   const token = await generate({ sub: user._id.toString() })
   return { token, user: publicUser }
 }
+
+export async function findByEmail(email: string) {
+  const user: User | undefined = await UserModel.findOne({ email }).exec()
+  return user
+}
