@@ -10,7 +10,7 @@ import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Attribute from 'components/Attribute/Attribute'
 import ReportButtons from 'components/Button/ReportButtons'
-import Alert from 'components/Alert/Alert'
+import Alert, { Categories } from 'components/Alert/Alert'
 import Contact from 'components/Contact/Contact'
 import Pictures from 'components/Pictures/Pictures'
 
@@ -67,7 +67,7 @@ const Post: NextPage<Props> = ({ dog, error }) => {
           <Contact dog={dog} />
         )}
 
-        {message && <Alert category="success">{message}</Alert>}
+        {message && <Alert category={Categories.SUCCESS}>{message}</Alert>}
       </div>
     </main>
   )

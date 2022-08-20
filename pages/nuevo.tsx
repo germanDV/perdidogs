@@ -9,7 +9,7 @@ import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
-import Alert from 'components/Alert/Alert'
+import Alert, { Categories } from 'components/Alert/Alert'
 import BreedSelect from 'components/Select/BreedSelect'
 import GenderSelect from 'components/Select/GenderSelect'
 import ConfirmPost from 'components/Modal/ConfirmPost'
@@ -183,7 +183,9 @@ const NewDog: NextPage = () => {
         </Button>
 
         {result.message && (
-          <Alert category={result.isError ? 'error' : 'success'}>{result.message}</Alert>
+          <Alert category={result.isError ? Categories.ERROR : Categories.SUCCESS}>
+            {result.message}
+          </Alert>
         )}
       </form>
 

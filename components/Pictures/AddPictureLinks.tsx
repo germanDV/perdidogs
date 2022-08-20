@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useState, ChangeEvent } from 'react'
 import Input from 'components/Input/Input'
 import Button from 'components/Button/Button'
-import Alert from 'components/Alert/Alert'
+import Alert, { Categories } from 'components/Alert/Alert'
 import styles from './AddPictureLinks.module.scss'
 import { isValidImgURL } from 'lib/validator/validator'
 import { MAX_PICTURES } from 'lib/models/dog-schema'
@@ -52,9 +52,11 @@ const AddPictureLinks = ({ urls, onChange, addPictureInput, error }: Props) => {
         </Button>
       </div>
 
-      {error || maxError ? (
-        <Alert category="error" onClose={() => setMaxError('')}>
-          {error || maxError}
+      {error && <Alert category={Categories.ERROR}>{error}</Alert>}
+
+      {!error && maxError ? (
+        <Alert category={Categories.WARNING} onClose={() => setMaxError('')}>
+          {maxError}
         </Alert>
       ) : null}
     </div>

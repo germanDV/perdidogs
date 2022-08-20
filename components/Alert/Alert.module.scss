@@ -30,3 +30,14 @@
     cursor: pointer;
   }
 }
+
+.warning {
+  border: 1px solid $warning;
+  background-color: $warning-bg;
+
+  .x {
+    color: $warning;
+    font-weight: bolder;
+    cursor: pointer;
+  }
+}
