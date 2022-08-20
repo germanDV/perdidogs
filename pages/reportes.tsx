@@ -5,6 +5,7 @@ import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
 import Dogs from 'components/Dogs/Dogs'
+import { AppError } from 'lib/errors'
 
 type Props = {
   dogs: Dog[]
@@ -36,6 +37,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       props: { dogs, error: '' },
     }
   } catch (err) {
+    if ((err as AppError).code === 401) {
+      return {
+        redirect: {
+          destination: '/ingresar',
+          permanent: false,
+        },
+      }
+    }
     return {
       props: { dogs: [], error: 'Error obteniendo listado de perros' },
     }

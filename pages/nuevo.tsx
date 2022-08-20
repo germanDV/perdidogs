@@ -16,10 +16,13 @@ import ConfirmPost from 'components/Modal/ConfirmPost'
 import AddPictureLinks from 'components/Pictures/AddPictureLinks'
 import { sanitizeImgURLs } from 'lib/validator/sanitize'
 import { idGenerator } from 'lib/id'
+import { useUser } from 'hooks/use-user'
 
 const generateId = idGenerator()
 
 const NewDog: NextPage = () => {
+  const { user } = useUser()
+
   // Set defaults for the `select`s
   const [values, setValues] = useState<Record<string, string>>(() => ({
     breed: Breeds.LABRADOR,
@@ -34,6 +37,10 @@ const NewDog: NextPage = () => {
   const router = useRouter()
 
   const status = router.query.estado
+
+  if (!user) {
+    router.push('/ingresar')
+  }
 
   const onConfirm = async () => {
     try {
