@@ -38,7 +38,7 @@ const NewDog: NextPage = () => {
 
   const status = router.query.estado
 
-  if (!user) {
+  if (!user && typeof window !== 'undefined') {
     router.push('/ingresar')
   }
 
