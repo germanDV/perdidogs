@@ -1,11 +1,10 @@
 import type { NextPage, GetServerSideProps } from 'next'
+import { fetchByCreator } from 'lib/models/dog'
 import { Dog } from 'lib/models/dog-schema'
-import http from 'lib/http/http'
 import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
 import Dogs from 'components/Dogs/Dogs'
-import { AppError } from 'lib/errors'
 
 type Props = {
   dogs: Dog[]
@@ -25,26 +24,22 @@ const Reports: NextPage<Props> = ({ dogs, error }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const KEY = process.env.AUTH_COOKIE_KEY || ''
-    const token = ctx.req.cookies[KEY] || ''
+    const userId = String(ctx.query.sub)
+    const resp = await fetchByCreator(userId)
+    const dogs: Dog[] = []
 
-    const dogs = await http<Dog[]>({
-      url: '/api/dogs/mine',
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    resp.forEach((i) =>
+      dogs.push({
+        ...i._doc,
+        _id: i._doc._id.toString(),
+        creator: i._doc.creator.toString(),
+      })
+    )
 
     return {
       props: { dogs, error: '' },
     }
   } catch (err) {
-    if ((err as AppError).code === 401) {
-      return {
-        redirect: {
-          destination: '/ingresar',
-          permanent: false,
-        },
-      }
-    }
     return {
       props: { dogs: [], error: 'Error obteniendo listado de perros' },
     }

@@ -18,7 +18,7 @@ const ReportButtons = ({ id, onSuccess, onError }: Props) => {
 
   const handleDelete = async () => {
     try {
-      await http<{ id: string }>({ url: `/api/dogs/${id}`, method: 'DELETE' })
+      await http<{ id: string }>({ url: `/api/dogs/delete/${id}`, method: 'DELETE' })
       setOpenDelete(false)
       onSuccess()
     } catch (err) {
@@ -31,7 +31,7 @@ const ReportButtons = ({ id, onSuccess, onError }: Props) => {
   const handleFound = async () => {
     try {
       await http<{ id: string }>({
-        url: `/api/dogs/${id}`,
+        url: `/api/dogs/update/${id}`,
         method: 'PUT',
         data: { status: DogStatus.RESOLVED },
       })

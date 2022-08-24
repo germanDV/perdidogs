@@ -4,7 +4,7 @@ import { PublicUser } from 'lib/models/user-schema'
 import Button from 'components/Button/Button'
 import Modal from 'components/Modal/Modal'
 import http from 'lib/http/http'
-import { HttpError } from 'lib/errors'
+import { useUser } from 'hooks/use-user'
 import styles from './Contact.module.scss'
 
 type Props = {
@@ -12,6 +12,7 @@ type Props = {
 }
 
 const Contact = ({ dog }: Props) => {
+  const { user } = useUser()
   const [open, setOpen] = useState(false)
   const [contactDetails, setContactDetails] = useState('')
   const [loading, setLoading] = useState(false)
@@ -24,11 +25,7 @@ const Contact = ({ dog }: Props) => {
         const u = await http<PublicUser>({ url: `/api/user/contact?id=${dog.creator}` })
         setContactDetails(u.email)
       } catch (err) {
-        if (err instanceof HttpError && err.code === 401) {
-          setError('Tenés que ingresar para poder ver datos de contacto')
-        } else {
-          setError((err as Error).message)
-        }
+        setError((err as Error).message)
       } finally {
         setLoading(false)
       }
@@ -49,9 +46,18 @@ const Contact = ({ dog }: Props) => {
 
       <Modal aria="datos de contacto" open={open} onClose={() => setOpen(false)}>
         {loading ? (
-          <p>cargando datos de contacto...</p>
+          <>
+            <h4>Contacto</h4>
+            <p>cargando datos de contacto...</p>
+          </>
+        ) : !user ? (
+          <>
+            <h4>Contacto</h4>
+            <p>Debes ingresar a tu cuenta para ver datos de contacto.</p>
+          </>
         ) : error ? (
           <>
+            <h4>Contacto</h4>
             <p>Error cargando datos.</p>
             <p>{error}</p>
           </>
