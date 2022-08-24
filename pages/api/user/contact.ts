@@ -1,5 +1,5 @@
 import type { ApiRequest, ApiResponse } from 'lib/api/types'
-import { allowMethods, auth } from 'lib/api/middleware'
+import { allowMethods } from 'lib/api/middleware'
 import { sendError } from 'lib/api/err-response'
 import { PublicUser } from 'lib/models/user-schema'
 import { find } from 'lib/models/user'
@@ -17,4 +17,4 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   }
 }
 
-export default allowMethods(auth(handler), ['GET'])
+export default allowMethods(handler, ['GET'])

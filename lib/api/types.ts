@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PublicUser } from 'lib/models/user-schema'
 
 type AdditionalRequestFields = {
-  user: PublicUser
+  sub: string
 }
 
 export type ApiRequest = NextApiRequest & AdditionalRequestFields

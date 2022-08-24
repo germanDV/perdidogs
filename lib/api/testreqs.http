@@ -8,9 +8,9 @@ GET http://localhost:3000/api/dogs?status=perdido HTTP/1.1
 GET http://localhost:3000/api/dogs/62f2c41a2b8695489595f3cb HTTP/1.1
 
 ### Update dog
-PUT http://localhost:3000/api/dogs/62f2c41a2b8695489595f3cb HTTP/1.1
+PUT http://localhost:3000/api/dogs/update/62f2c41a2b8695489595f3cb HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer v4.public.eyJzdWIiOiI2MmU1NDJjM2YyM2FiYWZkN2FmMTZlYTkiLCJpYXQiOiIyMDIyLTA4LTA5VDE5OjU2OjIzLjE5OVoiLCJleHAiOiIyMDIyLTA4LTE1VDE5OjU2OjIzLjE5OVoifZMqT1_NcSR-QNcgVoES65KYUBqEeyIDPytKcenTctRVUy7Rbcb0cyh6jGGB0TtiszEXln62SWqDCopvt4OJCQQ
+Cookie: auth_token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb3JkYW4yMyIsImlhdCI6MTY2MTI5MzE1OCwiZXhwIjoxNjYxNDY1OTU4fQ.okh-HdaS4mhIWU3G-8mYrX0bFNxuPBMWNvDj5pNBrJl7iSkFLpp0Y4wyH1nXo06rHnbZ541n4qfZWFL92_4K2Q
 
 {
   "status": "resuelto"
@@ -20,7 +20,7 @@ Authorization: Bearer v4.public.eyJzdWIiOiI2MmU1NDJjM2YyM2FiYWZkN2FmMTZlYTkiLCJp
 ### Post a new dog
 POST http://localhost:3000/api/dogs/new HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer v4.public.eyJzdWIiOiI2MmU1NDJjM2YyM2FiYWZkN2FmMTZlYTkiLCJpYXQiOiIyMDIyLTA4LTA5VDE5OjU2OjIzLjE5OVoiLCJleHAiOiIyMDIyLTA4LTE1VDE5OjU2OjIzLjE5OVoifZMqT1_NcSR-QNcgVoES65KYUBqEeyIDPytKcenTctRVUy7Rbcb0cyh6jGGB0TtiszEXln62SWqDCopvt4OJCQQ
+Cookie: auth_token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb3JkYW4yMyIsImlhdCI6MTY2MTI5MzE1OCwiZXhwIjoxNjYxNDY1OTU4fQ.okh-HdaS4mhIWU3G-8mYrX0bFNxuPBMWNvDj5pNBrJl7iSkFLpp0Y4wyH1nXo06rHnbZ541n4qfZWFL92_4K2Q
 
 {
   "name": "Api",
@@ -33,12 +33,12 @@ Authorization: Bearer v4.public.eyJzdWIiOiI2MmU1NDJjM2YyM2FiYWZkN2FmMTZlYTkiLCJp
 }
 
 ### Delete a dog
-DELETE http://localhost:3000/api/dogs/62f2bbfd7912ccce38e76390 HTTP/1.1
-Authorization: Bearer v4.public.eyJzdWIiOiI2MmU1NDJjM2YyM2FiYWZkN2FmMTZlYTkiLCJpYXQiOiIyMDIyLTA4LTA5VDE5OjU2OjIzLjE5OVoiLCJleHAiOiIyMDIyLTA4LTE1VDE5OjU2OjIzLjE5OVoifZMqT1_NcSR-QNcgVoES65KYUBqEeyIDPytKcenTctRVUy7Rbcb0cyh6jGGB0TtiszEXln62SWqDCopvt4OJCQQ
+DELETE http://localhost:3000/api/dogs/delete/62f2bbfd7912ccce38e76390 HTTP/1.1
+Cookie: auth_token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb3JkYW4yMyIsImlhdCI6MTY2MTI5MzE1OCwiZXhwIjoxNjYxNDY1OTU4fQ.okh-HdaS4mhIWU3G-8mYrX0bFNxuPBMWNvDj5pNBrJl7iSkFLpp0Y4wyH1nXo06rHnbZ541n4qfZWFL92_4K2Q
 
 ### All dogs by creator
 GET http://localhost:3000/api/dogs/mine HTTP/1.1
-Authorization: Bearer v4.public.eyJzdWIiOiI2MmU1NDJjM2YyM2FiYWZkN2FmMTZlYTkiLCJpYXQiOiIyMDIyLTA4LTA5VDE5OjU2OjIzLjE5OVoiLCJleHAiOiIyMDIyLTA4LTE1VDE5OjU2OjIzLjE5OVoifZMqT1_NcSR-QNcgVoES65KYUBqEeyIDPytKcenTctRVUy7Rbcb0cyh6jGGB0TtiszEXln62SWqDCopvt4OJCQQ
+Cookie: auth_token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiI2MmU1NDJjM2YyM2FiYWZkN2FmMTZlYTkiLCJpYXQiOjE2NjEzMDMyNjYsImV4cCI6MTY2MTgyMTY2Nn0.joU8BLouiETvQAywyvLTdvhO8lwXV9qPuTXiUhW2U6N4IdOAwGmy36bkR6gRYuHQEp_8Ljlbu_nsb4c_gdJm5g
 
 ### Dogs with filters
 GET http://localhost:3000/api/dogs/find?status=encontrado&color=Negro&from=20220809&location=crespo HTTP/1.1
@@ -65,9 +65,12 @@ Content-Type: application/json
 ### User Me
 GET http://localhost:3000/api/user/me HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer v4.public.eyJzdWIiOiI2MmUyZjg2ZWNhYzg0M2UzMzBjMDBmNDgiLCJpYXQiOiIyMDIyLTA3LTI4VDIwOjU5OjAwLjM5OFoiLCJleHAiOiIyMDIyLTA4LTA0VDIwOjU5OjAwLjM5OFoifUI_gT2XXoOwDcsLGJtG5CSFZGJW3qCV9lfRDQMq2AahI6KMONQE3_xn1HV2Xvtl5Rp5m6twQfyX6bxLMcupYg0
+Cookie: auth_token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb3JkYW4yMyIsImlhdCI6MTY2MTI5MzE1OCwiZXhwIjoxNjYxNDY1OTU4fQ.okh-HdaS4mhIWU3G-8mYrX0bFNxuPBMWNvDj5pNBrJl7iSkFLpp0Y4wyH1nXo06rHnbZ541n4qfZWFL92_4K2Q
 
 ### User contact details
 GET http://localhost:3000/api/user/contact?id=62e542c3f23abafd7af16ea9 HTTP/1.1
-Authorization: Bearer v4.public.eyJzdWIiOiI2MmU1NDJjM2YyM2FiYWZkN2FmMTZlYTkiLCJpYXQiOiIyMDIyLTA4LTA5VDE5OjU2OjIzLjE5OVoiLCJleHAiOiIyMDIyLTA4LTE1VDE5OjU2OjIzLjE5OVoifZMqT1_NcSR-QNcgVoES65KYUBqEeyIDPytKcenTctRVUy7Rbcb0cyh6jGGB0TtiszEXln62SWqDCopvt4OJCQQ
+Cookie: auth_token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb3JkYW4yMyIsImlhdCI6MTY2MTI5MzE1OCwiZXhwIjoxNjYxNDY1OTU4fQ.okh-HdaS4mhIWU3G-8mYrX0bFNxuPBMWNvDj5pNBrJl7iSkFLpp0Y4wyH1nXo06rHnbZ541n4qfZWFL92_4K2Q
 
+### Test auth
+GET http://localhost:3000/api/test HTTP/1.1
+Cookie: auth_token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb3JkYW4yMyIsImlhdCI6MTY2MTI5MzE1OCwiZXhwIjoxNjYxNDY1OTU4fQ.okh-HdaS4mhIWU3G-8mYrX0bFNxuPBMWNvDj5pNBrJl7iSkFLpp0Y4wyH1nXo06rHnbZ541n4qfZWFL92_4K2Q
