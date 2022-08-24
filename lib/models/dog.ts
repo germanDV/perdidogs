@@ -17,8 +17,8 @@ export async function save(dog: Partial<Dog>): Promise<Dog> {
   return { ...doc, _id: doc._id.toString() }
 }
 
-export async function fetchById(id: string): Promise<Dog> {
-  const dog: Dog = await DogModel.findById(id).exec()
+export async function fetchById(id: string): Promise<{ _doc: Dog }> {
+  const dog: { _doc: Dog } = await DogModel.findById(id).exec()
   if (!dog) {
     throw new DogNotFoundErr(`Perro con id ${id} no encontrado.`)
   }
@@ -31,8 +31,8 @@ export async function fetchByStatus(status: DogStatus): Promise<Dog[]> {
   return dogs
 }
 
-export async function fetchByCreator(creatorId: string): Promise<Dog[]> {
-  const dogs: Dog[] = await DogModel.find({ creator: creatorId })
+export async function fetchByCreator(creatorId: string): Promise<{ _doc: Dog }[]> {
+  const dogs: { _doc: Dog }[] = await DogModel.find({ creator: creatorId })
   return dogs
 }
 

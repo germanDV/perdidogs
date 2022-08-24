@@ -4,9 +4,6 @@ GET http://localhost:3000/api/dogs?status=encontrado HTTP/1.1
 ### Get all dogs (perdidos)
 GET http://localhost:3000/api/dogs?status=perdido HTTP/1.1
 
-### Get dog by ID
-GET http://localhost:3000/api/dogs/62f2c41a2b8695489595f3cb HTTP/1.1
-
 ### Update dog
 PUT http://localhost:3000/api/dogs/update/62f2c41a2b8695489595f3cb HTTP/1.1
 Content-Type: application/json
@@ -35,10 +32,6 @@ Cookie: auth_token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb3JkYW4yMyIsImlhdCI6MTY2MTI5
 ### Delete a dog
 DELETE http://localhost:3000/api/dogs/delete/62f2bbfd7912ccce38e76390 HTTP/1.1
 Cookie: auth_token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJqb3JkYW4yMyIsImlhdCI6MTY2MTI5MzE1OCwiZXhwIjoxNjYxNDY1OTU4fQ.okh-HdaS4mhIWU3G-8mYrX0bFNxuPBMWNvDj5pNBrJl7iSkFLpp0Y4wyH1nXo06rHnbZ541n4qfZWFL92_4K2Q
-
-### All dogs by creator
-GET http://localhost:3000/api/dogs/mine HTTP/1.1
-Cookie: auth_token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiI2MmU1NDJjM2YyM2FiYWZkN2FmMTZlYTkiLCJpYXQiOjE2NjEzMDMyNjYsImV4cCI6MTY2MTgyMTY2Nn0.joU8BLouiETvQAywyvLTdvhO8lwXV9qPuTXiUhW2U6N4IdOAwGmy36bkR6gRYuHQEp_8Ljlbu_nsb4c_gdJm5g
 
 ### Dogs with filters
 GET http://localhost:3000/api/dogs/find?status=encontrado&color=Negro&from=20220809&location=crespo HTTP/1.1

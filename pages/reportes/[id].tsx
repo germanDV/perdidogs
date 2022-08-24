@@ -1,8 +1,8 @@
 import type { NextPage, GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { fetchById } from 'lib/models/dog'
 import { Dog, DogStatus } from 'lib/models/dog-schema'
-import http from 'lib/http/http'
 import { printDate } from 'lib/date'
 import { useUser } from 'hooks/use-user'
 import styles from 'styles/Reporte.module.scss'
@@ -75,8 +75,15 @@ const Post: NextPage<Props> = ({ dog, error }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const id = ctx.params ? ctx.params.id : ''
-    const dog = await http<Dog>({ url: `/api/dogs/${id}` })
+    const id = ctx.params ? String(ctx.params.id) : ''
+    const resp = await fetchById(id)
+
+    const dog = {
+      ...resp._doc,
+      _id: resp._doc._id.toString(),
+      creator: resp._doc.creator.toString(),
+    }
+
     return {
       props: { dog, error: '' },
     }

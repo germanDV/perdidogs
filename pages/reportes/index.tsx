@@ -1,6 +1,6 @@
 import type { NextPage, GetServerSideProps } from 'next'
+import { fetchByCreator } from 'lib/models/dog'
 import { Dog } from 'lib/models/dog-schema'
-import http from 'lib/http/http'
 import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
@@ -24,8 +24,18 @@ const Reports: NextPage<Props> = ({ dogs, error }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const authCookie = `auth_token=${ctx.req.cookies['auth_token']}`
-    const dogs = await http<Dog[]>({ url: '/api/dogs/mine', headers: { Cookie: authCookie } })
+    const userId = String(ctx.query.sub)
+    const resp = await fetchByCreator(userId)
+    const dogs: Dog[] = []
+
+    resp.forEach((i) =>
+      dogs.push({
+        ...i._doc,
+        _id: i._doc._id.toString(),
+        creator: i._doc.creator.toString(),
+      })
+    )
+
     return {
       props: { dogs, error: '' },
     }
