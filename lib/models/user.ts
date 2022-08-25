@@ -110,3 +110,8 @@ export async function findByEmail(email: string) {
   const user: User | undefined = await UserModel.findOne({ email }).exec()
   return user
 }
+
+export async function stats() {
+  const { ok, count, storageSize, totalSize } = await UserModel.collection.stats()
+  return { ok, count, storageSize, totalSize }
+}

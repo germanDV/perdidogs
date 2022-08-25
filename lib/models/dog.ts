@@ -52,3 +52,8 @@ export async function findAll(filters: Filters): Promise<Dog[]> {
   const dogs: Dog[] = await DogModel.find(filters).sort({ date: 'desc' })
   return dogs
 }
+
+export async function stats() {
+  const { ok, count, storageSize, totalSize } = await DogModel.collection.stats()
+  return { ok, count, storageSize, totalSize }
+}
