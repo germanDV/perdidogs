@@ -1,4 +1,5 @@
-import { conn } from 'lib/database'
+import mongoose from 'mongoose'
+import dbConnect from 'lib/database'
 import { userSchema, User, SigninUser, SignupUser, PublicUser } from './user-schema'
 import { hash, match } from 'lib/auth/pwd'
 import { generate } from 'lib/auth/token'
@@ -10,7 +11,7 @@ import {
   BadInputError,
 } from 'lib/errors'
 
-const UserModel = conn.model('User', userSchema)
+const UserModel = mongoose.models.User || mongoose.model('User', userSchema)
 
 export async function signup(user: SignupUser): Promise<PublicUser> {
   const validationErrors: Record<string, string> = {}
@@ -36,6 +37,8 @@ export async function signup(user: SignupUser): Promise<PublicUser> {
 
   try {
     user.pass = await hash(user.pass)
+    await dbConnect()
+
     const u = new UserModel(user)
     const doc = await u.save()
 
@@ -55,6 +58,8 @@ export async function signup(user: SignupUser): Promise<PublicUser> {
 }
 
 export async function find(id: string): Promise<PublicUser> {
+  await dbConnect()
+
   const user: User = await UserModel.findById(id).exec()
   if (!user) {
     throw new UnauthenticatedUser(`Usuario no autorizado.`)
@@ -86,6 +91,8 @@ export async function signin(creds: SigninUser): Promise<{ token: string; user: 
     throw new BadInputError(JSON.stringify(validationErrors))
   }
 
+  await dbConnect()
+
   const user: User = await UserModel.findOne({ email: creds.email }).exec()
   if (!user) {
     throw new InvalidCredentials('Datos de ingreso inválidos.')
@@ -107,11 +114,13 @@ export async function signin(creds: SigninUser): Promise<{ token: string; user: 
 }
 
 export async function findByEmail(email: string) {
+  await dbConnect()
   const user: User | undefined = await UserModel.findOne({ email }).exec()
   return user
 }
 
 export async function stats() {
+  await dbConnect()
   const { ok, count, storageSize, totalSize } = await UserModel.collection.stats()
   return { ok, count, storageSize, totalSize }
 }
