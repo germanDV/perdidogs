@@ -4,6 +4,7 @@ import { useState, FormEvent } from 'react'
 import Title from 'components/Title/Title'
 import UncontrolledInput from 'components/Input/UncontrolledInput'
 import Button from 'components/Button/Button'
+import A from 'components/A/A'
 import { validateName, validateEmail, validatePass } from 'lib/validator/validator'
 import { useUser } from 'hooks/use-user'
 
@@ -58,6 +59,10 @@ const SignUp: NextPage = () => {
   return (
     <main>
       <Title>Crear Cuenta</Title>
+
+      <p>
+        Ya tengo cuenta, <A to="/ingresar">ingresar</A>
+      </p>
 
       <form onSubmit={handleSignup} style={{ width: 350, margin: '40px 0' }}>
         <UncontrolledInput type="text" id="name" placeholder="Nombre" />

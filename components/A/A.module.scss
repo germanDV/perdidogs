@@ -1,0 +1,12 @@
+@import 'styles/variables';
+
+.link {
+  cursor: pointer;
+  color: $primary-color; 
+  transition-duration: 300ms;
+  
+  &:hover,
+  &:focus {
+    color: $black;
+  }
+}
