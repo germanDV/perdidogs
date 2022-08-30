@@ -42,8 +42,14 @@ const NewDog: NextPage = () => {
         method: 'POST',
         data: dog,
       })
-      setResult({ message: `Reporte creado exitosamente (ID: ${id})`, isError: false })
+
+      setResult({
+        message: `Reporte creado exitosamente (ID: ${id}), redirigiendo en 3s...`,
+        isError: false,
+      })
+
       setValues({})
+      setTimeout(() => router.push(`/reportes/${id}`), 3_000)
     } catch (err) {
       console.error(err)
       setResult({ message: (err as Error).message, isError: true })
