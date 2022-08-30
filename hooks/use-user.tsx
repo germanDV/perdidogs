@@ -66,6 +66,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
   const signout = useCallback(async () => {
     await http({ url: '/api/user/signout', method: 'DELETE' })
     setUser(null)
+    location.href = '/'
   }, [])
 
   const value = useMemo(() => {

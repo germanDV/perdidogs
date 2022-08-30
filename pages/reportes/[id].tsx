@@ -41,7 +41,7 @@ const Post: NextPage<Props> = ({ dog, error }) => {
   }
 
   const onSuccess = () => {
-    setMessage('Operación exitosa, redirigiendo en 3s')
+    setMessage('Operación exitosa, redirigiendo en 3s...')
     setTimeout(() => router.push('/reportes'), 3_000)
   }
 
