@@ -11,7 +11,3 @@ Run `mongosh` shell:
 docker exec -it perdidogs-mongo mongosh
 ```
 
-Get some initial data:
-```shell
-yarn db:populate
-```
