@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { trusted } from 'mongoose'
 import dbConnect from 'lib/database'
 import { BadInputError, DogNotFoundErr } from 'lib/errors'
 import { dogSchema, DogStatus, Dog } from './dog-schema'
@@ -38,7 +38,12 @@ export async function fetchByStatus(status: DogStatus): Promise<Dog[]> {
 
 export async function fetchByCreator(creatorId: string): Promise<{ _doc: Dog }[]> {
   await dbConnect()
-  const dogs: { _doc: Dog }[] = await DogModel.find({ creator: creatorId })
+
+  const dogs: { _doc: Dog }[] = await DogModel.find({
+    creator: creatorId,
+    status: trusted({ $not: new RegExp(DogStatus.RESOLVED) }),
+  })
+
   return dogs
 }
 

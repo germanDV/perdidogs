@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
-    "prepare": "husky install",
-    "db:populate": "NODE_ENV=develop MONGO_HOST=localhost MONGO_PORT=27017 ts-node --compiler-options '{ \"isolatedModules\": false, \"module\": \"commonjs\" }' ./scripts/populatedb.ts"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@reach/alert": "^0.17.0",

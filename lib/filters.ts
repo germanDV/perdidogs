@@ -1,6 +1,6 @@
 import { trusted } from 'mongoose'
 import { max, validateDate } from 'lib/validator/validator'
-import { isDogStatus, isDogBreed } from 'lib/models/dog-schema'
+import { isDogStatus, isDogBreed, DogStatus } from 'lib/models/dog-schema'
 
 export type Filters = Record<string, string | RegExp | Record<string, string | number | string[]>>
 
@@ -15,7 +15,7 @@ export function buildFilters(
     filters.status = query.status
   } else {
     // We don't want `resolved` cases.
-    filters.status = trusted({ $in: ['perdido', 'encontrado'] })
+    filters.status = trusted({ $in: [DogStatus.LOST, DogStatus.FOUND] })
   }
 
   if (query.breed && isDogBreed(query.breed)) {
