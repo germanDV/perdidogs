@@ -24,8 +24,6 @@ const Buscados: NextPage<Props> = ({ dogs, error }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    console.log(ctx.req.headers)
-    console.log({ fullURL: getFullURL('/api/dogs?status=perdido', ctx.req) })
     // TODO: fetch directly from database
     const dogs = await http<Dog[]>({ url: getFullURL('/api/dogs?status=perdido', ctx.req) })
     return {
