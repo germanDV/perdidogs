@@ -12,7 +12,7 @@ export function getFullURL(path: string, req?: IncomingMessage): string {
   }
 
   let host = req.headers?.host || 'localhost:3000'
-  let protocol = /^localhost/.test(host) ? 'http:' : 'https:'
+  let protocol = /^localhost/.test(host) ? 'http' : 'https'
 
   if (req.headers['x-forwarded-host'] && typeof req.headers['x-forwarded-host'] === 'string') {
     host = req.headers['x-forwarded-host']
@@ -22,7 +22,7 @@ export function getFullURL(path: string, req?: IncomingMessage): string {
     protocol = req.headers['x-forwarded-proto']
   }
 
-  return `${protocol}//${host}${path}`
+  return `${protocol}://${host}${path}`
 }
 
 async function http<T>(cfg: AxiosRequestConfig): Promise<T> {
