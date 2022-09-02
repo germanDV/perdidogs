@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
 import { PublicUser } from 'lib/models/user-schema'
-import http from 'lib/http/http'
+import http, { getFullURL } from 'lib/http/http'
 
 type UserCtxType = {
   user: PublicUser | null
@@ -30,7 +30,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     async function me() {
       try {
-        const { user } = await http<{ user: PublicUser }>({ url: '/api/user/me' })
+        const { user } = await http<{ user: PublicUser }>({ url: getFullURL('/api/user/me') })
         setUser(user)
       } catch {
         setUser(null)
@@ -43,7 +43,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
 
   const signup = useCallback(async (name: string, email: string, pass: string) => {
     const { user } = await http<{ user: PublicUser; token: string }>({
-      url: '/api/user/signup',
+      url: getFullURL('/api/user/signup'),
       method: 'POST',
       data: { name, email, pass },
     })
@@ -54,7 +54,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
 
   const signin = useCallback(async (email: string, pass: string) => {
     const { user } = await http<{ user: PublicUser; token: string }>({
-      url: '/api/user/signin',
+      url: getFullURL('/api/user/signin'),
       method: 'POST',
       data: { email, pass },
     })
@@ -64,7 +64,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
   }, [])
 
   const signout = useCallback(async () => {
-    await http({ url: '/api/user/signout', method: 'DELETE' })
+    await http({ url: getFullURL('/api/user/signout'), method: 'DELETE' })
     setUser(null)
     location.href = '/'
   }, [])

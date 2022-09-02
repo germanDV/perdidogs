@@ -4,7 +4,7 @@ import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
 import Dogs from 'components/Dogs/Dogs'
 import { Dog } from 'lib/models/dog-schema'
-import http from 'lib/http/http'
+import http, { getFullURL } from 'lib/http/http'
 
 type Props = {
   dogs: Dog[]
@@ -24,7 +24,7 @@ const Buscados: NextPage<Props> = ({ dogs, error }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const dogs = await http<Dog[]>({ url: '/api/dogs?status=perdido' })
+    const dogs = await http<Dog[]>({ url: getFullURL('/api/dogs?status=perdido') })
     return {
       props: { dogs, error: '' },
     }

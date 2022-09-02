@@ -3,7 +3,7 @@ import { Dog } from 'lib/models/dog-schema'
 import { PublicUser } from 'lib/models/user-schema'
 import Button from 'components/Button/Button'
 import Modal from 'components/Modal/Modal'
-import http from 'lib/http/http'
+import http, { getFullURL } from 'lib/http/http'
 import { useUser } from 'hooks/use-user'
 import styles from './Contact.module.scss'
 
@@ -22,7 +22,7 @@ const Contact = ({ dog }: Props) => {
     async function fetchUser() {
       setLoading(true)
       try {
-        const u = await http<PublicUser>({ url: `/api/user/contact?id=${dog.creator}` })
+        const u = await http<PublicUser>({ url: getFullURL(`/api/user/contact?id=${dog.creator}`) })
         setContactDetails(u.email)
       } catch (err) {
         setError((err as Error).message)
