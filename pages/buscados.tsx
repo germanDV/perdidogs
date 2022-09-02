@@ -22,9 +22,9 @@ const Buscados: NextPage<Props> = ({ dogs, error }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const dogs = await http<Dog[]>({ url: getFullURL('/api/dogs?status=perdido') })
+    const dogs = await http<Dog[]>({ url: getFullURL('/api/dogs?status=perdido', ctx.req) })
     return {
       props: { dogs, error: '' },
     }

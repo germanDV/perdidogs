@@ -1,8 +1,8 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
-import type { NextRequest } from 'next/server'
+import { IncomingMessage } from 'http'
 import { HttpError } from 'lib/errors'
 
-export function getFullURL(path: string, req?: NextRequest): string {
+export function getFullURL(path: string, req?: IncomingMessage): string {
   if (typeof window !== 'undefined') {
     return `${window.location.protocol}//${window.location.host}${path}`
   }
@@ -11,15 +11,15 @@ export function getFullURL(path: string, req?: NextRequest): string {
     return `http://localhost:3000${path}`
   }
 
-  let host = req.headers.get('host') || 'mmm:3000'
-  let protocol = req.headers.get('host') ? 'https:' : 'http:'
+  let host = req.headers?.host || 'mmm:3000'
+  let protocol = req.headers?.host ? 'https:' : 'http:'
 
-  if (req.headers.get('x-forwarded-host')) {
-    host = req.headers.get('x-forwarded-host') as string
+  if (req.headers['x-forwarded-host'] && typeof req.headers['x-forwarded-host'] === 'string') {
+    host = req.headers['x-forwarded-host']
   }
 
-  if (req.headers.get('x-forwarded-proto')) {
-    protocol = `${req.headers.get('x-forwarded-proto')}:`
+  if (req.headers['x-forwarded-proto'] && typeof req.headers['x-forwarded-proto'] === 'string') {
+    protocol = req.headers['x-forwarded-proto']
   }
 
   return `${protocol}//${host}${path}`
