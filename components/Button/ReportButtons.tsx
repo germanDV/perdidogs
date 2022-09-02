@@ -3,7 +3,7 @@ import Button from './Button'
 import styles from './ReportButtons.module.scss'
 import ConfirmResolve from 'components/Modal/ConfirmResolve'
 import ConfirmDelete from 'components/Modal/ConfirmDelete'
-import http from 'lib/http/http'
+import http, { getFullURL } from 'lib/http/http'
 import { DogStatus } from 'lib/models/dog-schema'
 
 type Props = {
@@ -18,7 +18,7 @@ const ReportButtons = ({ id, onSuccess, onError }: Props) => {
 
   const handleDelete = async () => {
     try {
-      await http<{ id: string }>({ url: `/api/dogs/delete/${id}`, method: 'DELETE' })
+      await http<{ id: string }>({ url: getFullURL(`/api/dogs/delete/${id}`), method: 'DELETE' })
       setOpenDelete(false)
       onSuccess()
     } catch (err) {
@@ -31,7 +31,7 @@ const ReportButtons = ({ id, onSuccess, onError }: Props) => {
   const handleFound = async () => {
     try {
       await http<{ id: string }>({
-        url: `/api/dogs/update/${id}`,
+        url: getFullURL(`/api/dogs/update/${id}`),
         method: 'PUT',
         data: { status: DogStatus.RESOLVED },
       })

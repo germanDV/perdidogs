@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useState, FormEvent, ChangeEvent } from 'react'
 import { Dog, Breeds, DogStatus } from 'lib/models/dog-schema'
 import { validateDog } from 'lib/validator/validator'
-import http from 'lib/http/http'
+import http, { getFullURL } from 'lib/http/http'
 import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
@@ -38,7 +38,7 @@ const NewDog: NextPage = () => {
   const onConfirm = async () => {
     try {
       const { id } = await http<{ id: string }>({
-        url: '/api/dogs/new',
+        url: getFullURL('/api/dogs/new'),
         method: 'POST',
         data: dog,
       })

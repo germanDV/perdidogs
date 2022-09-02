@@ -1,9 +1,29 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import { IncomingMessage } from 'http'
 import { HttpError } from 'lib/errors'
 
-const PROTO = process.env.NEXT_PUBLIC_PROTO
-const HOST = process.env.NEXT_PUBLIC_HOST
-const BASE_URL = `${PROTO}://${HOST}`
+export function getFullURL(path: string, req?: IncomingMessage): string {
+  if (typeof window !== 'undefined') {
+    return `${window.location.protocol}//${window.location.host}${path}`
+  }
+
+  if (!req) {
+    return `http://localhost:3000${path}`
+  }
+
+  let host = req.headers?.host || 'localhost:3000'
+  let protocol = /^localhost/.test(host) ? 'http' : 'https'
+
+  if (req.headers['x-forwarded-host'] && typeof req.headers['x-forwarded-host'] === 'string') {
+    host = req.headers['x-forwarded-host']
+  }
+
+  if (req.headers['x-forwarded-proto'] && typeof req.headers['x-forwarded-proto'] === 'string') {
+    protocol = req.headers['x-forwarded-proto']
+  }
+
+  return `${protocol}://${host}${path}`
+}
 
 async function http<T>(cfg: AxiosRequestConfig): Promise<T> {
   const { method, url, headers, data, ...config } = cfg
@@ -11,7 +31,7 @@ async function http<T>(cfg: AxiosRequestConfig): Promise<T> {
   try {
     const resp: AxiosResponse<T> = await axios({
       method: method || 'GET',
-      url: `${BASE_URL}${url}`,
+      url,
       headers: {
         'Content-Type': 'application/json',
         ...headers,
