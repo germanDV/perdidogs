@@ -11,8 +11,8 @@ export function getFullURL(path: string, req?: IncomingMessage): string {
     return `http://localhost:3000${path}`
   }
 
-  let host = req.headers?.host || 'mmm:3000'
-  let protocol = req.headers?.host ? 'https:' : 'http:'
+  let host = req.headers?.host || 'localhost:3000'
+  let protocol = /^localhost/.test(host) ? 'http:' : 'https:'
 
   if (req.headers['x-forwarded-host'] && typeof req.headers['x-forwarded-host'] === 'string') {
     host = req.headers['x-forwarded-host']
