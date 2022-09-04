@@ -12,6 +12,7 @@ type FormTarget = { elements: Record<string, { value: string }> }
 
 const SignUp: NextPage = () => {
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { signup } = useUser()
 
@@ -47,12 +48,15 @@ const SignUp: NextPage = () => {
       return
     }
 
+    setLoading(true)
     try {
       await signup(name, email, pass)
       router.push('/')
     } catch (err) {
       console.error(err)
       setError((err as Error).message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -69,7 +73,7 @@ const SignUp: NextPage = () => {
         <UncontrolledInput type="text" id="email" placeholder="Email" />
         <UncontrolledInput type="password" id="pass" placeholder="Contraseña" />
         <UncontrolledInput type="password" id="repeat" placeholder="Repetir contraseña" />
-        <Button type="submit" fullWidth>
+        <Button type="submit" fullWidth loading={loading}>
           Registrarme
         </Button>
         {error && <p style={{ color: 'tomato', textAlign: 'center' }}>Error: {error}</p>}

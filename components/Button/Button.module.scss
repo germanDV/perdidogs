@@ -1,6 +1,7 @@
 @import 'styles/variables';
 
 .button {
+  position: relative;
   font-size: 1.1rem;
   padding: 10px;
   margin: 10px 0;
@@ -11,6 +12,10 @@
   border-color: $black;
   text-transform: uppercase;
   transition-duration: 300ms;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .primary {
@@ -19,6 +24,10 @@
 
   &:hover {
     background-color: #000;
+  }
+
+  &:disabled {
+    background-color: $black;
   }
 }
 
@@ -29,6 +38,11 @@
   &:hover {
     background-color: #000;
     color: $white;
+  }
+
+  &:disabled {
+    background-color: #fff;
+    color: $black;
   }
 }
 

@@ -5,9 +5,9 @@ type Props = Omit<ModalProps, 'children'> & {
   status: string
 }
 
-const ConfirmPost = ({ open, aria, onClose, onConfirm, status }: Props) => {
+const ConfirmPost = ({ open, aria, onClose, onConfirm, status, loading }: Props) => {
   return (
-    <Modal open={open} aria={aria} onClose={onClose} onConfirm={onConfirm}>
+    <Modal open={open} aria={aria} onClose={onClose} onConfirm={onConfirm} loading={loading}>
       <h4>Confirmación</h4>
       <p>
         Antes de crear este reporte, por favor verificá el listado de perros{' '}

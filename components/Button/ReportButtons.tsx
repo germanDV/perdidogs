@@ -15,9 +15,11 @@ type Props = {
 const ReportButtons = ({ id, onSuccess, onError }: Props) => {
   const [openResolve, setOpenResolve] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleDelete = async () => {
     try {
+      setLoading(true)
       await http<{ id: string }>({ url: getFullURL(`/api/dogs/delete/${id}`), method: 'DELETE' })
       setOpenDelete(false)
       onSuccess()
@@ -25,11 +27,14 @@ const ReportButtons = ({ id, onSuccess, onError }: Props) => {
       console.error(err)
       setOpenDelete(false)
       onError(`Error eliminando reporte con ID ${id}`)
+    } finally {
+      setLoading(false)
     }
   }
 
   const handleFound = async () => {
     try {
+      setLoading(true)
       await http<{ id: string }>({
         url: getFullURL(`/api/dogs/update/${id}`),
         method: 'PUT',
@@ -42,6 +47,8 @@ const ReportButtons = ({ id, onSuccess, onError }: Props) => {
       console.error(err)
       setOpenResolve(false)
       onError(`Error actualizando reporte con ID ${id}`)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -59,6 +66,7 @@ const ReportButtons = ({ id, onSuccess, onError }: Props) => {
         aria="confirmar actualización"
         onClose={() => setOpenResolve(false)}
         onConfirm={handleFound}
+        loading={loading}
       />
 
       <ConfirmDelete
@@ -66,6 +74,7 @@ const ReportButtons = ({ id, onSuccess, onError }: Props) => {
         aria="confirmar eliminación"
         onClose={() => setOpenDelete(false)}
         onConfirm={handleDelete}
+        loading={loading}
       />
     </div>
   )

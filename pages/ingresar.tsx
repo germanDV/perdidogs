@@ -12,6 +12,7 @@ type FormTarget = { elements: Record<string, { value: string }> }
 
 const SignIn: NextPage = () => {
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { signin } = useUser()
 
@@ -34,11 +35,14 @@ const SignIn: NextPage = () => {
       return
     }
 
+    setLoading(true)
     try {
       await signin(email, pass)
       router.push('/')
     } catch (err) {
       setError((err as Error).message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -53,7 +57,7 @@ const SignIn: NextPage = () => {
       <form onSubmit={handleSignin} style={{ width: 350, margin: '40px 0' }}>
         <UncontrolledInput type="text" id="email" placeholder="Email" />
         <UncontrolledInput type="password" id="pass" placeholder="Contraseña" />
-        <Button type="submit" fullWidth>
+        <Button type="submit" fullWidth loading={loading}>
           Ingresar
         </Button>
         {error && <p style={{ color: 'tomato', textAlign: 'center' }}>Error: {error}</p>}
