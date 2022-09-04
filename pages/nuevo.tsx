@@ -31,11 +31,13 @@ const NewDog: NextPage = () => {
   const [result, setResult] = useState({ message: '', isError: false })
   const [open, setOpen] = useState(false)
   const [dog, setDog] = useState<Partial<Dog>>({})
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   const status = router.query.estado
 
   const onConfirm = async () => {
+    setLoading(true)
     try {
       const { id } = await http<{ id: string }>({
         url: getFullURL('/api/dogs/new'),
@@ -54,6 +56,7 @@ const NewDog: NextPage = () => {
       console.error(err)
       setResult({ message: (err as Error).message, isError: true })
     } finally {
+      setLoading(false)
       setDog({})
       setPictureURLs({})
       setOpen(false)
@@ -201,6 +204,7 @@ const NewDog: NextPage = () => {
         onClose={onCancel}
         onConfirm={onConfirm}
         status={String(status)}
+        loading={loading}
       />
     </main>
   )

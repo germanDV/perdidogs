@@ -10,9 +10,10 @@ export type Props = {
   onConfirm?: () => void
   onClose: () => void
   children: ReactNode
+  loading?: boolean
 }
 
-const Modal = ({ open, aria, onClose, onConfirm, children }: Props) => {
+const Modal = ({ open, aria, onClose, onConfirm, children, loading }: Props) => {
   return (
     <Dialog isOpen={open} onDismiss={onClose} aria-label={aria} className={styles.container}>
       {children}
@@ -22,7 +23,7 @@ const Modal = ({ open, aria, onClose, onConfirm, children }: Props) => {
           Cerrar
         </Button>
         {onConfirm && (
-          <Button category="primary" onClick={onConfirm}>
+          <Button category="primary" onClick={onConfirm} loading={loading}>
             Confirmar
           </Button>
         )}

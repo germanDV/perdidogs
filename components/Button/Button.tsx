@@ -1,4 +1,5 @@
 import styles from './Button.module.scss'
+import Spinner from 'components/Spinner/Spinner'
 
 type Props = {
   children: React.ReactNode
@@ -6,9 +7,10 @@ type Props = {
   type?: 'submit' | 'button'
   onClick?: () => void
   fullWidth?: boolean
+  loading?: boolean
 }
 
-const Button: React.FC<Props> = ({ children, category, type, fullWidth, onClick }) => {
+const Button: React.FC<Props> = ({ children, category, type, fullWidth, onClick, loading }) => {
   const getClasses = (): string => {
     let classes = `${styles.button}`
 
@@ -27,8 +29,9 @@ const Button: React.FC<Props> = ({ children, category, type, fullWidth, onClick 
       type={type || 'button'}
       onClick={type !== 'submit' ? onClick : undefined}
       className={getClasses()}
+      disabled={loading}
     >
-      {children}
+      {loading ? <Spinner>{children}</Spinner> : children}
     </button>
   )
 }
