@@ -66,7 +66,9 @@ export function isDogStatus(s: string | string[] | undefined): s is DogStatus {
 }
 
 export function isDogBreed(s: string | string[] | undefined): s is Breeds {
-  return Object.values(Breeds).includes(s as Breeds)
+  return Object.values(Breeds)
+    .map((b) => b.toLowerCase())
+    .includes(s as Breeds)
 }
 
 export const MAX_PICTURES = 6
