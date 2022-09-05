@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import styles from 'styles/Home.module.scss'
@@ -18,11 +19,9 @@ const Home: NextPage = () => {
               Ver <strong>listado</strong> de perr@s perdid@s&nbsp;&rarr;
             </a>
           </Link>
-          <Link href="/nuevo?estado=perdido">
-            <a>
-              <strong>Reportar</strong> perr@ perdid@&nbsp;&rarr;
-            </a>
-          </Link>
+          <a href="/nuevo?estado=perdido">
+            <strong>Reportar</strong> perr@ perdid@&nbsp;&rarr;
+          </a>
         </div>
 
         <div className={styles.card}>
@@ -32,11 +31,9 @@ const Home: NextPage = () => {
               Ver <strong>listado</strong> de perr@s encontrad@s&nbsp;&rarr;
             </a>
           </Link>
-          <Link href="/nuevo?estado=encontrado">
-            <a>
-              <strong>Reportar</strong> perr@ encontrad@&nbsp;&rarr;
-            </a>
-          </Link>
+          <a href="/nuevo?estado=encontrado">
+            <strong>Reportar</strong> perr@ encontrad@&nbsp;&rarr;
+          </a>
         </div>
       </div>
     </main>
