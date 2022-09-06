@@ -1,6 +1,6 @@
 import { useUser } from 'hooks/use-user'
 import NavLink from 'components/NavLink/NavLink'
-import Button from 'components/Button/Button'
+import UserMenu from 'components/UserMenu/UserMenu'
 import styles from './Header.module.scss'
 
 const Header = () => {
@@ -27,9 +27,7 @@ const Header = () => {
             <NavLink to="/reportes" style={{ paddingTop: 6 }}>
               Mis Reportes
             </NavLink>
-            <Button category="secondary" onClick={handleSignout}>
-              Salir
-            </Button>
+            <UserMenu onSignout={handleSignout} />
           </>
         )}
       </nav>

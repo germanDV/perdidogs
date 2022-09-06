@@ -13,6 +13,7 @@
   "dependencies": {
     "@reach/alert": "^0.17.0",
     "@reach/dialog": "^0.17.0",
+    "@reach/menu-button": "^0.17.0",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "jose": "^4.9.0",
