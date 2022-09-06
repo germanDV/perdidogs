@@ -30,9 +30,9 @@ export async function fetchById(id: string): Promise<{ _doc: Dog }> {
   return dog
 }
 
-export async function fetchByStatus(status: DogStatus): Promise<Dog[]> {
+export async function fetchByStatus(status: DogStatus): Promise<{ _doc: Dog }[]> {
   await dbConnect()
-  const dogs: Dog[] = await DogModel.find({ status })
+  const dogs: { _doc: Dog }[] = await DogModel.find({ status })
   return dogs
 }
 

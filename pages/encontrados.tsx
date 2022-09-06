@@ -3,8 +3,8 @@ import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Subtitle from 'components/Subtitle/Subtitle'
 import Dogs from 'components/Dogs/Dogs'
-import { Dog } from 'lib/models/dog-schema'
-import http, { getFullURL } from 'lib/http/http'
+import { fetchByStatus } from 'lib/models/dog'
+import { Dog, DogStatus } from 'lib/models/dog-schema'
 
 type Props = {
   dogs: Dog[]
@@ -22,10 +22,19 @@ const Encontrados: NextPage<Props> = ({ dogs, error }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    // TODO: fetch directly from database
-    const dogs = await http<Dog[]>({ url: getFullURL('/api/dogs?status=encontrado', ctx.req) })
+    const resp = await fetchByStatus(DogStatus.FOUND)
+    const dogs: Dog[] = []
+
+    resp.forEach((i) =>
+      dogs.push({
+        ...i._doc,
+        _id: i._doc._id.toString(),
+        creator: i._doc.creator.toString(),
+      })
+    )
+
     return {
       props: { dogs, error: '' },
     }
