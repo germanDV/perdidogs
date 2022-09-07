@@ -23,12 +23,7 @@ const Header = () => {
             <NavLink to="/ingresar">Ingresar</NavLink>
           </>
         ) : (
-          <>
-            <NavLink to="/reportes" style={{ paddingTop: 6 }}>
-              Mis Reportes
-            </NavLink>
-            <UserMenu onSignout={handleSignout} />
-          </>
+          <UserMenu onSignout={handleSignout} />
         )}
       </nav>
     </header>
