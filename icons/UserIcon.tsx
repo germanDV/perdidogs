@@ -5,8 +5,8 @@ const UserIcon = () => (
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    width={34}
-    height={34}
+    width={32}
+    height={32}
   >
     <path
       strokeLinecap="round"

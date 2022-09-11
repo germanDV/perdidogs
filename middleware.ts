@@ -26,6 +26,7 @@ export const config = {
     '/nuevo',
     '/api/user/contact',
     '/api/user/me',
+    '/api/user/changepass',
     '/api/dogs/mine',
     '/api/dogs/new',
     '/api/dogs/update/:id*',
