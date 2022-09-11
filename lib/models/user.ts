@@ -9,6 +9,7 @@ import {
   InvalidCredentials,
   UnauthenticatedUser,
   BadInputError,
+  UserNotFoundErr,
 } from 'lib/errors'
 
 const UserModel = mongoose.models.User || mongoose.model('User', userSchema)
@@ -117,6 +118,30 @@ export async function findByEmail(email: string) {
   await dbConnect()
   const user: User | undefined = await UserModel.findOne({ email }).exec()
   return user
+}
+
+export async function changePass(userId: string, oldPass: string, newPass: string) {
+  const user: User = await UserModel.findById(userId).exec()
+  if (!user) {
+    throw new UserNotFoundErr(`Usuario no encontrado.`)
+  }
+
+  const correctPass = await match(oldPass, user.pass)
+  if (!correctPass) {
+    throw new InvalidCredentials('Contraseña incorrecta.')
+  }
+
+  const [isValidPass, passError] = validatePass(newPass)
+  if (!isValidPass) {
+    throw new BadInputError(JSON.stringify(passError))
+  }
+
+  const filters = { _id: userId }
+  const updates = { pass: await hash(newPass) }
+  const opts = { new: true }
+
+  const updated = await UserModel.findOneAndUpdate(filters, updates, opts)
+  return updated
 }
 
 export async function stats() {
