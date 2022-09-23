@@ -70,6 +70,16 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
     }
   }
 
+  const { gender } = req.body
+  if (gender) {
+    if (['m', 'f'].includes(gender)) {
+      updates.gender = gender
+    } else {
+      sendError(res, `Valor inválido para género (${gender})`)
+      return
+    }
+  }
+
   try {
     const dog = await update(dogId, userId, updates)
     res.status(200).json(dog)
