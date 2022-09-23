@@ -10,6 +10,7 @@ import BackLink from 'components/BackLink/BackLink'
 import Title from 'components/Title/Title'
 import Attribute from 'components/Attribute/Attribute'
 import EditableGender from 'components/Attribute/EditableGender'
+import EditableBreed from 'components/Attribute/EditableBreed'
 import ReportButtons from 'components/Button/ReportButtons'
 import Alert, { Categories } from 'components/Alert/Alert'
 import Contact from 'components/Contact/Contact'
@@ -55,7 +56,7 @@ const Post: NextPage<Props> = ({ dog, error }) => {
       <div className={styles.data}>
         <Pictures pictures={dog.pictures} />
 
-        <Attribute label="raza" value={dog.breed} dogId={dog._id} property="breed" />
+        <EditableBreed dogId={dog._id} value={dog.breed} />
         <EditableGender dogId={dog._id} value={dog.gender} />
         <Attribute label="fecha" value={printDate(dog.date)} dogId={dog._id} property="date" />
         <Attribute

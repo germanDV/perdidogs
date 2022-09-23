@@ -1,6 +1,6 @@
 import { ApiRequest, ApiResponse } from 'lib/api/types'
 import { allowMethods } from 'lib/api/middleware'
-import { Dog, isDogStatus } from 'lib/models/dog-schema'
+import { Dog, isDogBreed, isDogStatus } from 'lib/models/dog-schema'
 import { update } from 'lib/models/dog'
 import { sendError } from 'lib/api/err-response'
 import { AppError, UpdateNotAllowed } from 'lib/errors'
@@ -76,6 +76,16 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
       updates.gender = gender
     } else {
       sendError(res, `Valor inválido para género (${gender})`)
+      return
+    }
+  }
+
+  const { breed } = req.body
+  if (breed) {
+    if (isDogBreed(breed)) {
+      updates.breed = breed
+    } else {
+      sendError(res, `"${breed}" no es una raza válida.`)
       return
     }
   }

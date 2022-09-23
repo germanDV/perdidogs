@@ -1,24 +1,19 @@
 import { useState } from 'react'
 import { editReport } from 'lib/api/edit-report'
+import { Breeds } from 'lib/models/dog-schema'
 import EditIcon from 'icons/EditIcon'
 import LockIcon from 'icons/LockIcon'
 import CancelIcon from 'icons/CancelIcon'
 import Alert, { Categories } from 'components/Alert/Alert'
-import GenderSelect from 'components/Select/GenderSelect'
+import BreedSelect from 'components/Select/BreedSelect'
 import styles from './Attribute.module.scss'
 
 type Props = {
   dogId: string
-  value: string
+  value: Breeds
 }
 
-function displayGender(gender: string): 'Macho' | 'Hembra' | '' {
-  if (gender === 'f') return 'Hembra'
-  if (gender === 'm') return 'Macho'
-  return ''
-}
-
-const EditableGender = ({ dogId, value: initialValue }: Props) => {
+const EditableBreed = ({ dogId, value: initialValue }: Props) => {
   const [value, setValue] = useState(() => initialValue)
   const [editing, setEditing] = useState(false)
   const [error, setError] = useState('')
@@ -26,7 +21,7 @@ const EditableGender = ({ dogId, value: initialValue }: Props) => {
   const handleEdit = async () => {
     try {
       setError('')
-      await editReport(dogId, 'gender', value)
+      await editReport(dogId, 'breed', value)
     } catch (err) {
       setError((err as Error).message)
     } finally {
@@ -46,11 +41,7 @@ const EditableGender = ({ dogId, value: initialValue }: Props) => {
         <div className={styles.withicon}>
           {editing ? (
             <>
-              <GenderSelect
-                id="gender"
-                value={value}
-                onChange={(ev) => setValue(ev.target.value)}
-              />
+              <BreedSelect id="breed" value={value} onChange={(ev) => setValue(ev.target.value)} />
               <div onClick={handleEdit} title="Guardar">
                 <LockIcon />
               </div>
@@ -60,7 +51,7 @@ const EditableGender = ({ dogId, value: initialValue }: Props) => {
             </>
           ) : (
             <>
-              <span>{displayGender(value)}</span>
+              <span>{value}</span>
               <div onClick={() => setEditing(true)} title="Editar">
                 <EditIcon />
               </div>
@@ -68,9 +59,9 @@ const EditableGender = ({ dogId, value: initialValue }: Props) => {
           )}
         </div>
       </section>
-      {error && <Alert category={Categories.ERROR}>Género: {error}</Alert>}
+      {error && <Alert category={Categories.ERROR}>Raza: {error}</Alert>}
     </>
   )
 }
 
-export default EditableGender
+export default EditableBreed
