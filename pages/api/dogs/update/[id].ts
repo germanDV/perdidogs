@@ -5,6 +5,12 @@ import { update } from 'lib/models/dog'
 import { sendError } from 'lib/api/err-response'
 import { AppError, UpdateNotAllowed } from 'lib/errors'
 import { Filters } from 'lib/filters'
+import {
+  validateDescription,
+  validateLocation,
+  validateName,
+  validateColor,
+} from 'lib/validator/validator'
 
 type RespPayload = Dog | Omit<AppError, 'code'>
 
@@ -14,12 +20,54 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
 
   const updates: Filters = {}
 
-  // For now, the only allowed update is changing the status.
-  if (req.body.status && isDogStatus(req.body.status)) {
-    updates.status = req.body.status
-  } else {
-    sendError(res, new UpdateNotAllowed('Solo se permite actualizar `status`'))
-    return
+  if (req.body.status) {
+    if (isDogStatus(req.body.status)) {
+      updates.status = req.body.status
+    } else {
+      const msg = `"${req.body.status}" no es un estado válido.`
+      sendError(res, new UpdateNotAllowed(msg))
+      return
+    }
+  }
+
+  if (req.body.name) {
+    const [isValid, error] = validateName(req.body.name)
+    if (isValid) {
+      updates.name = req.body.name
+    } else {
+      sendError(res, error)
+      return
+    }
+  }
+
+  if (req.body.location) {
+    const [isValid, error] = validateLocation(req.body.location)
+    if (isValid) {
+      updates.location = req.body.location
+    } else {
+      sendError(res, error)
+      return
+    }
+  }
+
+  if (req.body.description) {
+    const [isValid, error] = validateDescription(req.body.description)
+    if (isValid) {
+      updates.description = req.body.description
+    } else {
+      sendError(res, error)
+      return
+    }
+  }
+
+  if (req.body.color) {
+    const [isValid, error] = validateColor(req.body.color)
+    if (isValid) {
+      updates.color = [req.body.color]
+    } else {
+      sendError(res, error)
+      return
+    }
   }
 
   try {

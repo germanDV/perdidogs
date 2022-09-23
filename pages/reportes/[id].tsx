@@ -31,6 +31,7 @@ const Post: NextPage<Props> = ({ dog, error }) => {
   const router = useRouter()
   const [apiError, setAPIError] = useState('')
   const [message, setMessage] = useState('')
+  const isCreator = Boolean(user && user._id === dog?.creator)
 
   if (error || apiError || !dog) {
     return <p style={{ color: '#ff0000' }}>{error}</p>
@@ -53,15 +54,46 @@ const Post: NextPage<Props> = ({ dog, error }) => {
       <div className={styles.data}>
         <Pictures pictures={dog.pictures} />
 
-        <Attribute label="raza" value={dog.breed} />
-        <Attribute label="género" value={dog.gender === 'f' ? 'Hembra' : 'Macho'} />
-        <Attribute label="fecha" value={printDate(dog.date)} />
-        <Attribute label="color" value={dog.color.join(', ')} />
-        {dog.name !== 'NN' && <Attribute label="nombre" value={dog.name} />}
-        <Attribute label="zona" value={dog.location} />
-        <Attribute label="descripción" value={dog.description} />
+        <Attribute label="raza" value={dog.breed} dogId={dog._id} property="breed" />
+        <Attribute
+          label="género"
+          value={dog.gender === 'f' ? 'Hembra' : 'Macho'}
+          dogId={dog._id}
+          property="gender"
+        />
+        <Attribute label="fecha" value={printDate(dog.date)} dogId={dog._id} property="date" />
+        <Attribute
+          dogId={dog._id}
+          property="color"
+          label="color"
+          value={dog.color.join(', ')}
+          editable={isCreator}
+        />
+        {dog.name !== 'NN' && (
+          <Attribute
+            dogId={dog._id}
+            property="name"
+            label="nombre"
+            value={dog.name}
+            editable={isCreator}
+          />
+        )}
+        <Attribute
+          dogId={dog._id}
+          property="location"
+          label="zona"
+          value={dog.location}
+          editable={isCreator}
+        />
+        <Attribute
+          dogId={dog._id}
+          property="description"
+          label="descripción"
+          value={dog.description}
+          editable={isCreator}
+        />
 
-        {user && user._id === dog.creator ? (
+        {isCreator ? (
           <ReportButtons id={dog._id} onError={onError} onSuccess={onSuccess} />
         ) : (
           <Contact dog={dog} />

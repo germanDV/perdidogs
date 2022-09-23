@@ -2,7 +2,10 @@ import { trusted } from 'mongoose'
 import { max, validateDate } from 'lib/validator/validator'
 import { isDogStatus, isDogBreed, DogStatus } from 'lib/models/dog-schema'
 
-export type Filters = Record<string, string | RegExp | Record<string, string | number | string[]>>
+export type Filters = Record<
+  string,
+  string | string[] | RegExp | Record<string, string | number | string[]>
+>
 
 export function buildFilters(
   query: Partial<{
