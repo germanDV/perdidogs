@@ -1,30 +1,26 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useEditReport } from 'hooks/use-edit-report'
-import { Dog } from 'lib/models/dog-schema'
+import { Breeds } from 'lib/models/dog-schema'
 import EditIcon from 'icons/EditIcon'
 import LockIcon from 'icons/LockIcon'
 import CancelIcon from 'icons/CancelIcon'
 import Alert, { Categories } from 'components/Alert/Alert'
+import BreedSelect from 'components/Select/BreedSelect'
 import styles from './Attribute.module.scss'
 
 type Props = {
   dogId: string
-  property: keyof Dog
-  label: string
-  value: string
-  editable?: boolean
+  value: Breeds
+  editable: boolean
 }
 
-const Attribute = ({ dogId, property, label, value: initialValue, editable }: Props) => {
+const EditableBreed = ({ dogId, value: initialValue, editable }: Props) => {
   const [value, setValue] = useState(() => initialValue)
   const [editing, setEditing] = useState(false)
   const { editReport, error } = useEditReport(dogId)
-  const ref = useRef<HTMLInputElement>(null)
 
   const handleEdit = async () => {
-    const newValue = ref.current?.value.trim()
-    await editReport(property, newValue || '')
-    if (newValue) setValue(newValue)
+    await editReport('breed', value)
     setEditing(false)
   }
 
@@ -35,12 +31,16 @@ const Attribute = ({ dogId, property, label, value: initialValue, editable }: Pr
   return (
     <>
       <section className={styles.container}>
-        <div className={styles.label}>{label}</div>
+        <div className={styles.label}>Raza</div>
 
         <div className={styles.withicon}>
           {editing ? (
             <>
-              <input type="text" defaultValue={value} ref={ref} />
+              <BreedSelect
+                id="breed"
+                value={value}
+                onChange={(ev) => setValue(ev.target.value as Breeds)}
+              />
               <div onClick={handleEdit} title="Guardar">
                 <LockIcon />
               </div>
@@ -60,13 +60,9 @@ const Attribute = ({ dogId, property, label, value: initialValue, editable }: Pr
           )}
         </div>
       </section>
-      {error && (
-        <Alert category={Categories.ERROR}>
-          {label}: {error}
-        </Alert>
-      )}
+      {error && <Alert category={Categories.ERROR}>Raza: {error}</Alert>}
     </>
   )
 }
 
-export default Attribute
+export default EditableBreed

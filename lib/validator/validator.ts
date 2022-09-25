@@ -80,6 +80,27 @@ export const validateGender: ValidatorFunction = (gender) => {
   return [true, '']
 }
 
+export const validateLocation: ValidatorFunction = (loc) => {
+  if (!required(loc) || !min(loc, 4) || !max(loc, 100)) {
+    return [false, 'Debe contener entre 4 y 100 caracteres.']
+  }
+  return [true, '']
+}
+
+export const validateDescription: ValidatorFunction = (desc) => {
+  if (!required(desc) || !min(desc, 30) || !max(desc, 1_000)) {
+    return [false, 'Debe contener entre 30 y 1000 caracteres.']
+  }
+  return [true, '']
+}
+
+export const validateColor: ValidatorFunction = (color) => {
+  if (!required(color) || !min(color, 4) || !max(color, 32)) {
+    return [false, 'Debe contener entre 4 y 32 caracteres.']
+  }
+  return [true, '']
+}
+
 export function validateDog(dog: Partial<Dog>): Record<string, string> | null {
   let hasErrors = false
   const validationErrors: Record<string, string> = {}
@@ -107,24 +128,25 @@ export function validateDog(dog: Partial<Dog>): Record<string, string> | null {
     validationErrors.color = 'Debe indicar color.'
   } else {
     for (const c of dog.color) {
-      if (!required(c) || !min(c, 4) || !max(c, 32)) {
+      const [isValidColor, colorError] = validateColor(c)
+      if (!isValidColor) {
         hasErrors = true
-        validationErrors.color = 'Debe contener entre 4 y 32 caracteres.'
+        validationErrors.color = colorError
         break
       }
     }
   }
 
-  const loc = dog.location || ''
-  if (!required(loc) || !min(loc, 4) || !max(loc, 100)) {
+  const [isValidLoc, locError] = validateLocation(dog.location || '')
+  if (!isValidLoc) {
     hasErrors = true
-    validationErrors.location = 'Debe contener entre 4 y 100 caracteres.'
+    validationErrors.location = locError
   }
 
-  const desc = dog.description || ''
-  if (!required(desc) || !min(desc, 30) || !max(desc, 1_000)) {
+  const [isValidDesc, descError] = validateDescription(dog.description || '')
+  if (!isValidDesc) {
     hasErrors = true
-    validationErrors.description = 'Debe contener entre 30 y 1000 caracteres.'
+    validationErrors.description = descError
   }
 
   // Contact is optional
