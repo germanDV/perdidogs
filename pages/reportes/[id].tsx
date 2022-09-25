@@ -54,7 +54,7 @@ const Post: NextPage<Props> = ({ dog, error }) => {
       <Title>{getTitle(dog.gender, dog.status)}</Title>
 
       <div className={styles.data}>
-        <Pictures pictures={dog.pictures} />
+        <Pictures dogId={dog._id} pictures={dog.pictures} isCreator={isCreator} />
 
         <EditableBreed dogId={dog._id} value={dog.breed} editable={isCreator} />
         <EditableGender dogId={dog._id} value={dog.gender} editable={isCreator} />

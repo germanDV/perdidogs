@@ -31,5 +31,7 @@ export const config = {
     '/api/dogs/new',
     '/api/dogs/update/:id*',
     '/api/dogs/delete/:id*',
+    '/api/pictures/remove',
+    '/api/pictures/add',
   ],
 }
