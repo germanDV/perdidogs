@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { editReport } from 'lib/api/edit-report'
+import { useEditReport } from 'hooks/use-edit-report'
 import EditIcon from 'icons/EditIcon'
 import LockIcon from 'icons/LockIcon'
 import CancelIcon from 'icons/CancelIcon'
@@ -10,6 +10,7 @@ import styles from './Attribute.module.scss'
 type Props = {
   dogId: string
   value: string
+  editable: boolean
 }
 
 function displayGender(gender: string): 'Macho' | 'Hembra' | '' {
@@ -18,20 +19,14 @@ function displayGender(gender: string): 'Macho' | 'Hembra' | '' {
   return ''
 }
 
-const EditableGender = ({ dogId, value: initialValue }: Props) => {
+const EditableGender = ({ dogId, value: initialValue, editable }: Props) => {
   const [value, setValue] = useState(() => initialValue)
   const [editing, setEditing] = useState(false)
-  const [error, setError] = useState('')
+  const { editReport, error } = useEditReport(dogId)
 
   const handleEdit = async () => {
-    try {
-      setError('')
-      await editReport(dogId, 'gender', value)
-    } catch (err) {
-      setError((err as Error).message)
-    } finally {
-      setEditing(false)
-    }
+    await editReport('gender', value)
+    setEditing(false)
   }
 
   const handleCancel = () => {
@@ -61,9 +56,11 @@ const EditableGender = ({ dogId, value: initialValue }: Props) => {
           ) : (
             <>
               <span>{displayGender(value)}</span>
-              <div onClick={() => setEditing(true)} title="Editar">
-                <EditIcon />
-              </div>
+              {editable && (
+                <div onClick={() => setEditing(true)} title="Editar">
+                  <EditIcon />
+                </div>
+              )}
             </>
           )}
         </div>

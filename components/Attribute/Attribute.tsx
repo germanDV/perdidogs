@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { editReport } from 'lib/api/edit-report'
+import { useEditReport } from 'hooks/use-edit-report'
 import { Dog } from 'lib/models/dog-schema'
 import EditIcon from 'icons/EditIcon'
 import LockIcon from 'icons/LockIcon'
@@ -18,25 +18,14 @@ type Props = {
 const Attribute = ({ dogId, property, label, value: initialValue, editable }: Props) => {
   const [value, setValue] = useState(() => initialValue)
   const [editing, setEditing] = useState(false)
-  const [error, setError] = useState('')
+  const { editReport, error } = useEditReport(dogId)
   const ref = useRef<HTMLInputElement>(null)
 
   const handleEdit = async () => {
     const newValue = ref.current?.value.trim()
-    if (!newValue) {
-      setError('Está vacío.')
-      return
-    }
-
-    try {
-      setError('')
-      await editReport(dogId, property, newValue)
-      setValue(newValue)
-    } catch (err) {
-      setError((err as Error).message)
-    } finally {
-      setEditing(false)
-    }
+    await editReport(property, newValue || '')
+    if (newValue) setValue(newValue)
+    setEditing(false)
   }
 
   const handleCancel = () => {

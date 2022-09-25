@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { editReport } from 'lib/api/edit-report'
+import { useEditReport } from 'hooks/use-edit-report'
 import { Breeds } from 'lib/models/dog-schema'
 import EditIcon from 'icons/EditIcon'
 import LockIcon from 'icons/LockIcon'
@@ -11,22 +11,17 @@ import styles from './Attribute.module.scss'
 type Props = {
   dogId: string
   value: Breeds
+  editable: boolean
 }
 
-const EditableBreed = ({ dogId, value: initialValue }: Props) => {
+const EditableBreed = ({ dogId, value: initialValue, editable }: Props) => {
   const [value, setValue] = useState(() => initialValue)
   const [editing, setEditing] = useState(false)
-  const [error, setError] = useState('')
+  const { editReport, error } = useEditReport(dogId)
 
   const handleEdit = async () => {
-    try {
-      setError('')
-      await editReport(dogId, 'breed', value)
-    } catch (err) {
-      setError((err as Error).message)
-    } finally {
-      setEditing(false)
-    }
+    await editReport('breed', value)
+    setEditing(false)
   }
 
   const handleCancel = () => {
@@ -41,7 +36,11 @@ const EditableBreed = ({ dogId, value: initialValue }: Props) => {
         <div className={styles.withicon}>
           {editing ? (
             <>
-              <BreedSelect id="breed" value={value} onChange={(ev) => setValue(ev.target.value)} />
+              <BreedSelect
+                id="breed"
+                value={value}
+                onChange={(ev) => setValue(ev.target.value as Breeds)}
+              />
               <div onClick={handleEdit} title="Guardar">
                 <LockIcon />
               </div>
@@ -52,9 +51,11 @@ const EditableBreed = ({ dogId, value: initialValue }: Props) => {
           ) : (
             <>
               <span>{value}</span>
-              <div onClick={() => setEditing(true)} title="Editar">
-                <EditIcon />
-              </div>
+              {editable && (
+                <div onClick={() => setEditing(true)} title="Editar">
+                  <EditIcon />
+                </div>
+              )}
             </>
           )}
         </div>

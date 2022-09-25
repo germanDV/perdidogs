@@ -56,8 +56,8 @@ const Post: NextPage<Props> = ({ dog, error }) => {
       <div className={styles.data}>
         <Pictures pictures={dog.pictures} />
 
-        <EditableBreed dogId={dog._id} value={dog.breed} />
-        <EditableGender dogId={dog._id} value={dog.gender} />
+        <EditableBreed dogId={dog._id} value={dog.breed} editable={isCreator} />
+        <EditableGender dogId={dog._id} value={dog.gender} editable={isCreator} />
         <Attribute label="fecha" value={printDate(dog.date)} dogId={dog._id} property="date" />
         <Attribute
           dogId={dog._id}
