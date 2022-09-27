@@ -2,6 +2,7 @@
 
 .container {
   margin: 0 auto 24px auto;
+  position: relative;
 }
 
 .stripe {
@@ -17,3 +18,25 @@
     overflow: hidden;
   }
 }
+
+.actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, .9);
+  border-radius: 4px;
+  padding: 8px;
+
+  .remove {
+    cursor: pointer;
+    color: $error;
+  }
+
+  .add {
+    cursor: pointer;
+    color: $success;
+    margin-top: 8px;
+  }
+}
+

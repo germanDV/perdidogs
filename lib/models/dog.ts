@@ -72,3 +72,29 @@ export async function stats() {
   const { ok, count, storageSize, totalSize } = await DogModel.collection.stats()
   return { ok, count, storageSize, totalSize }
 }
+
+export async function removePicture(
+  dogId: string,
+  creatorId: string,
+  pictureURL: string
+): Promise<Dog> {
+  await dbConnect()
+  const filters = { _id: dogId, creator: creatorId }
+  const updates = { $pull: { pictures: pictureURL } }
+  const opts = { new: true }
+  const dog = await DogModel.findOneAndUpdate(filters, updates, opts)
+  return dog
+}
+
+export async function addPicture(
+  dogId: string,
+  creatorId: string,
+  pictureURL: string
+): Promise<Dog> {
+  await dbConnect()
+  const filters = { _id: dogId, creator: creatorId }
+  const updates = { $push: { pictures: pictureURL } }
+  const opts = { new: true }
+  const dog = await DogModel.findOneAndUpdate(filters, updates, opts)
+  return dog
+}

@@ -10,7 +10,7 @@ import { MAX_PICTURES } from 'lib/models/dog-schema'
 type Props = {
   urls: Record<string, string>
   onChange: (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
-  addPictureInput: () => void
+  addPictureInput?: () => void
   error: string
 }
 
@@ -18,12 +18,14 @@ const AddPictureLinks = ({ urls, onChange, addPictureInput, error }: Props) => {
   const [maxError, setMaxError] = useState('')
 
   const handleAddPictureInput = () => {
-    if (Object.keys(urls).length >= MAX_PICTURES) {
-      setMaxError(`Máximo ${MAX_PICTURES} fotos.`)
-      return
+    if (addPictureInput) {
+      if (Object.keys(urls).length >= MAX_PICTURES) {
+        setMaxError(`Máximo ${MAX_PICTURES} fotos.`)
+        return
+      }
+      setMaxError('')
+      addPictureInput()
     }
-    setMaxError('')
-    addPictureInput()
   }
 
   return (
@@ -46,11 +48,13 @@ const AddPictureLinks = ({ urls, onChange, addPictureInput, error }: Props) => {
         </div>
       ))}
 
-      <div className={styles.btn}>
-        <Button category="secondary" onClick={handleAddPictureInput}>
-          +
-        </Button>
-      </div>
+      {addPictureInput && (
+        <div className={styles.btn}>
+          <Button category="secondary" onClick={handleAddPictureInput}>
+            +
+          </Button>
+        </div>
+      )}
 
       {error && <Alert category={Categories.ERROR}>{error}</Alert>}
 
