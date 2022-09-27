@@ -36,7 +36,7 @@ const EditableGender = ({ dogId, value: initialValue, editable }: Props) => {
   return (
     <>
       <section className={styles.container}>
-        <div className={styles.label}>Raza</div>
+        <div className={styles.label}>Género</div>
 
         <div className={styles.withicon}>
           {editing ? (
