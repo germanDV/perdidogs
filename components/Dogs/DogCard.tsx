@@ -17,7 +17,7 @@ const DogCard = ({ dog }: Props) => {
 
   return (
     <div className={styles.card} onClick={go}>
-      <Pictures pictures={dog.pictures?.slice(0, 3)} />
+      <Pictures pictures={dog.pictures?.slice(0, 3)} dogId={dog._id} isCreator={false} />
       <div className={styles.data}>
         <div className={styles.title}>{dog.breed}</div>
         <div>
