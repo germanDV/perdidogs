@@ -85,3 +85,16 @@ export async function removePicture(
   const dog = await DogModel.findOneAndUpdate(filters, updates, opts)
   return dog
 }
+
+export async function addPicture(
+  dogId: string,
+  creatorId: string,
+  pictureURL: string
+): Promise<Dog> {
+  await dbConnect()
+  const filters = { _id: dogId, creator: creatorId }
+  const updates = { $push: { pictures: pictureURL } }
+  const opts = { new: true }
+  const dog = await DogModel.findOneAndUpdate(filters, updates, opts)
+  return dog
+}

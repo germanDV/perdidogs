@@ -1,8 +1,11 @@
 import Image from 'next/image'
 import { useState, MouseEvent } from 'react'
 import http, { getFullURL } from 'lib/http/http'
+import { MAX_PICTURES } from 'lib/models/dog-schema'
 import TrashIcon from 'icons/TrashIcon'
+import AddIcon from 'icons/AddIcon'
 import Modal from 'components/Modal/Modal'
+import AddPicture from 'components/Modal/AddPicture'
 import styles from './Pictures.module.scss'
 
 type Props = {
@@ -13,6 +16,7 @@ type Props = {
 
 const Pictures = ({ dogId, isCreator, pictures: initialPics }: Props) => {
   const [modal, setModal] = useState('')
+  const [addPictureModal, setAddPictureModal] = useState(false)
   const [pictures, setPictures] = useState(() => initialPics || [])
 
   const [selected, setSelected] = useState(() => {
@@ -56,6 +60,19 @@ const Pictures = ({ dogId, isCreator, pictures: initialPics }: Props) => {
     }
   }
 
+  const handleOpenAdd = () => {
+    if (pictures.length >= MAX_PICTURES) {
+      setModal('No puedes agregar más imágenes.')
+      return
+    }
+    setAddPictureModal(true)
+  }
+
+  const handleAddPicture = async (url: string) => {
+    setAddPictureModal(false)
+    setPictures((prev) => [...prev, url])
+  }
+
   return (
     <div className={styles.container}>
       {isCreator && (
@@ -63,12 +80,23 @@ const Pictures = ({ dogId, isCreator, pictures: initialPics }: Props) => {
           <div className={styles.remove} onClick={handleDelete} title="Eliminar imágen">
             <TrashIcon />
           </div>
+          <div className={styles.add} onClick={handleOpenAdd} title="Agregar imágen">
+            <AddIcon />
+          </div>
         </div>
       )}
 
       <Modal open={Boolean(modal)} aria="Advertencia mínimo imágenes" onClose={() => setModal('')}>
         {modal}
       </Modal>
+
+      <AddPicture
+        dogId={dogId}
+        open={addPictureModal}
+        aria="Agregar imágen"
+        onClose={() => setAddPictureModal(false)}
+        onConfirm={handleAddPicture}
+      />
 
       <Image src={selected} alt="Foto" width="500" height="400" layout="responsive" priority />
 
