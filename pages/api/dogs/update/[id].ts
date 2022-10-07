@@ -4,6 +4,7 @@ import { Dog, isDogBreed, isDogStatus } from 'lib/models/dog-schema'
 import { update } from 'lib/models/dog'
 import { sendError } from 'lib/api/err-response'
 import { AppError, UpdateNotAllowed } from 'lib/errors'
+import { revalidate } from 'lib/revalidate'
 import { Filters } from 'lib/filters'
 import {
   validateDescription,
@@ -92,6 +93,7 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
 
   try {
     const dog = await update(dogId, userId, updates)
+    revalidate(req, dog.status)
     res.status(200).json(dog)
   } catch (err) {
     sendError(res, err)

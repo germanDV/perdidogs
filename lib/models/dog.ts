@@ -47,10 +47,10 @@ export async function fetchByCreator(creatorId: string): Promise<{ _doc: Dog }[]
   return dogs
 }
 
-export async function remove(dogId: string, creatorId: string): Promise<string> {
+export async function remove(dogId: string, creatorId: string): Promise<Dog | null> {
   await dbConnect()
-  const deleted = await DogModel.findOneAndDelete({ _id: dogId, creator: creatorId })
-  return deleted._id
+  const deleted: Dog | null = await DogModel.findOneAndDelete({ _id: dogId, creator: creatorId })
+  return deleted
 }
 
 export async function update(dogId: string, creatorId: string, updates: Filters): Promise<Dog> {
