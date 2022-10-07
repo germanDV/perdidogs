@@ -13,7 +13,7 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
     const dog: Partial<Dog> = req.body
     dog.creator = String(req.query.sub)
     const d = await save(dog)
-    if (dog.status) revalidate(req, dog.status)
+    if (dog.status) await revalidate(req, dog.status)
     res.status(200).json({ id: d._id })
   } catch (err) {
     sendError(res, err)

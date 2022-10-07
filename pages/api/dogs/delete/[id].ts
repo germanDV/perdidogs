@@ -12,7 +12,7 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
     const dogId = String(req.query.id)
     const userId = String(req.query.sub)
     const deleted = await remove(dogId, userId)
-    if (deleted?.status) revalidate(req, deleted.status)
+    if (deleted?.status) await revalidate(req, deleted.status)
     res.status(200).json({ id: deleted?._id || null })
     return
   } catch (err) {

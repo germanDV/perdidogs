@@ -7,11 +7,7 @@ import { BadInputError } from 'lib/errors'
 type RespPayload = { revalidated: true } | { message: string } | AppError
 
 async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
-  console.log(`Got a request to revalidate ${req.query.path}`)
   if (req.query.token !== process.env.CACHE_REVALIDATION_TOKEN) {
-    console.log(
-      `Tokens do not match. Got: ${req.query.token}, Want: ${process.env.CACHE_REVALIDATION_TOKEN}`
-    )
     return res.status(401).json({ message: 'Invalid cache revalidation token' })
   }
 

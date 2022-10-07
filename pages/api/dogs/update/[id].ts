@@ -93,7 +93,6 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
 
   try {
     const dog = await update(dogId, userId, updates)
-    console.log(`Calling revalidate for dog with status: ${dog.status}`)
     await revalidate(req, dog.status)
     res.status(200).json(dog)
   } catch (err) {

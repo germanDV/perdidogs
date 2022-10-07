@@ -22,7 +22,7 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
     }
 
     const dog = await removePicture(dogId, userId, pictureURL)
-    revalidate(req, dog.status)
+    await revalidate(req, dog.status)
     res.status(200).json({ message: 'Imágen eliminada exitosamente.' })
   } catch (err) {
     sendError(res, err)
