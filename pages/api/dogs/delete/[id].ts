@@ -3,15 +3,17 @@ import { allowMethods } from 'lib/api/middleware'
 import { remove } from 'lib/models/dog'
 import { sendError } from 'lib/api/err-response'
 import { AppError } from 'lib/errors'
+import { revalidate } from 'lib/revalidate'
 
-type RespPayload = { id: string } | Omit<AppError, 'code'>
+type RespPayload = { id: string | null } | Omit<AppError, 'code'>
 
 async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
   try {
     const dogId = String(req.query.id)
     const userId = String(req.query.sub)
-    const deletedId = await remove(dogId, userId)
-    res.status(200).json({ id: deletedId })
+    const deleted = await remove(dogId, userId)
+    if (deleted?.status) revalidate(req, deleted.status)
+    res.status(200).json({ id: deleted?._id || null })
     return
   } catch (err) {
     sendError(res, err)

@@ -4,6 +4,7 @@ import { sendError } from 'lib/api/err-response'
 import { AppError, BadInputError } from 'lib/errors'
 import { isValidImgURL } from 'lib/validator/validator'
 import { removePicture } from 'lib/models/dog'
+import { revalidate } from 'lib/revalidate'
 
 type RespPayload = { message: string } | Omit<AppError, 'code'>
 
@@ -20,7 +21,8 @@ async function handler(req: ApiRequest, res: ApiResponse<RespPayload>) {
       throw new BadInputError(`"${pictureURL}" no es válido.`)
     }
 
-    await removePicture(dogId, userId, pictureURL)
+    const dog = await removePicture(dogId, userId, pictureURL)
+    revalidate(req, dog.status)
     res.status(200).json({ message: 'Imágen eliminada exitosamente.' })
   } catch (err) {
     sendError(res, err)
