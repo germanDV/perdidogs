@@ -9,5 +9,5 @@ export function revalidate(req: ApiRequest, status: DogStatus) {
   const token = process.env.CACHE_REVALIDATION_TOKEN
   const path = status === DogStatus.FOUND ? '/encontrados' : '/buscados'
   const url = getFullURL(`/api/revalidate?path=${path}&token=${token}`, req)
-  http({ method: 'GET', url })
+  return http({ method: 'GET', url })
 }
