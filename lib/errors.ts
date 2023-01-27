@@ -12,7 +12,7 @@ export class DuplicateUserErr extends Error implements AppError {
   constructor(msg: string) {
     super(msg)
     this.message = msg
-    this.name = 'DuplicateUserErr'
+    this.name = "DuplicateUserErr"
     this.code = 400
   }
 }
@@ -25,7 +25,7 @@ export class UserNotFoundErr extends Error implements AppError {
   constructor(msg: string) {
     super(msg)
     this.message = msg
-    this.name = 'UserNotFoundErr'
+    this.name = "UserNotFoundErr"
     this.code = 404
   }
 }
@@ -38,7 +38,7 @@ export class InvalidCredentials extends Error implements AppError {
   constructor(msg: string) {
     super(msg)
     this.message = msg
-    this.name = 'InvalidCredentials'
+    this.name = "InvalidCredentials"
     this.code = 401
   }
 }
@@ -51,7 +51,7 @@ export class UnauthenticatedUser extends Error implements AppError {
   constructor(msg: string) {
     super(msg)
     this.message = msg
-    this.name = 'UnauthenticatedUser'
+    this.name = "UnauthenticatedUser"
     this.code = 401
   }
 }
@@ -64,7 +64,7 @@ export class BadInputError extends Error implements AppError {
   constructor(msg: string) {
     super(msg)
     this.message = msg
-    this.name = 'BadInputError'
+    this.name = "BadInputError"
     this.code = 400
   }
 }
@@ -77,12 +77,12 @@ export class UpdateNotAllowed extends Error implements AppError {
   constructor(msg: string) {
     super(msg)
     this.message = msg
-    this.name = 'UpdateNotAllowed'
+    this.name = "UpdateNotAllowed"
     this.code = 400
   }
 }
 
-export class DogNotFoundErr extends Error implements AppError {
+export class DogNotFoundError extends Error implements AppError {
   public name: string
   public message: string
   public code: number
@@ -90,7 +90,7 @@ export class DogNotFoundErr extends Error implements AppError {
   constructor(msg: string) {
     super(msg)
     this.message = msg
-    this.name = 'DogNotFoundErr'
+    this.name = "DogNotFoundErr"
     this.code = 404
   }
 }
@@ -115,7 +115,7 @@ export function isAppError(error: unknown): error is AppError {
     error instanceof InvalidCredentials ||
     error instanceof UnauthenticatedUser ||
     error instanceof UnauthenticatedUser ||
-    error instanceof DogNotFoundErr ||
+    error instanceof DogNotFoundError ||
     error instanceof HttpError ||
     error instanceof UpdateNotAllowed
   )
